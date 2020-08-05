@@ -1,0 +1,13 @@
+# dependencies
+node_modules
+npm-debug.log
+
+# testing
+coverage
+
+# misc
+.DS_Store
+.env
+
+.vscode/
+client/.vscode/
