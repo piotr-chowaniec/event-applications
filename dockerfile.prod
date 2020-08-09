@@ -1,0 +1,7 @@
+FROM node:12.18-alpine
+
+# copy in the app as uid/pgid node
+COPY --chown=node:node . .
+
+# remove any devDependencies
+RUN npm prune --production

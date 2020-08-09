@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "extends": [
+    "react-app",
+    "brainhub"
+  ],
+  "rules": {
+    "no-invalid-this": 0,
+    "radix": ["error", "always"],
+    "array-callback-return": "error",
+    "no-mixed-operators": ["error", { "groups": [["&&", "||"]] }],
+    "no-useless-computed-key": "error",
+    "no-useless-escape": "error",
+    "no-unused-expressions": "error",
+    "import/no-namespace": 0,
+    "space-infix-ops": "error",
+    "space-in-parens": ["error", "never"]
+  },
+  "env": {
+    "jest": true
+  }
+}

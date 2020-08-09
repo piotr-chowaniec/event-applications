@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  event-applications:
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/client/node-modules
+    ports:
+      - 7000:7000
