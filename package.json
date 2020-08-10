@@ -13,7 +13,9 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install:all": "npm i && npm i --prefix client",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "pre-push:client": "cd client && CI=1 npm run lint",
+    "pre-push": "npm run lint && npm run pre-push:client"
   },
   "dependencies": {
     "bunyan": "^1.8.14",
@@ -29,10 +31,11 @@
     "husky": "^4.2.5",
     "nodemon": "^2.0.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "ssh://dev@nas.piotrch.synology.me:1234/volume1/Dev/repo/private/event-applications.git"
-  },
   "author": "Piotr Chowaniec",
-  "license": "ISC"
+  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run pre-push"
+    }
+  }
 }
