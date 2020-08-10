@@ -1,5 +1,10 @@
 FROM node:12.18-alpine
 
+WORKDIR /app
+RUN chown -R node:node /app
+EXPOSE 7000
+
+USER node
 RUN mkdir -p ./client
 
 COPY --chown=node:node package.json package-lock.json ./
