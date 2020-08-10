@@ -11,4 +11,16 @@ const loggingMiddleware = require('./infrastructure/middlewares/logging');
   const server = app.listen(port, () => {
     app.locals.logger.info(`Application started on port: ${server.address().port}`);
   });
+
+  server.on('close', () => {
+    process.exit();
+  });
+
+  process.on('SIGTERM', () => {
+    server.close();
+  });
+
+  process.on('SIGINT', () => {
+    server.close();
+  });
 })();
