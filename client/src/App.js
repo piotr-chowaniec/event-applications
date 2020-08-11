@@ -1,8 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Navbar from './navbar';
-import WelcomePage from './welcomePage';
+import Navbar from './navbar/navbar.component';
+import Register from './register/register.component';
+import WelcomePage from './welcomePage.component';
+import { Routes } from './routes';
 import './style/styles.scss';
 
 const App = () => (
@@ -12,6 +14,11 @@ const App = () => (
       <div id="main-page" className="d-flex justify-content-center align-items-center">
         <div id="overlay" />
         <Switch >
+          <Route
+            exact
+            path={Routes.REGISTER}
+            component={Register}
+          />
           <Route component={WelcomePage} />
         </Switch>
       </div>
