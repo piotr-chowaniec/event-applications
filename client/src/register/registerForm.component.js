@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Field } from 'formik';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 const RegisterForm = ({
   dirty,
@@ -28,13 +29,14 @@ const RegisterForm = ({
       type="password"
       placeholder="Confirm Password"
     />
-    <button
+    <Button
       type="submit"
-      className="btn btn-block btn-outline-success"
+      block
+      variant="outline-success"
       disabled={!dirty}
     >
       Register!
-    </button>
+    </Button>
   </Form>
 );
 
