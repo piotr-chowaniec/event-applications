@@ -13,7 +13,7 @@ const WelcomePage = () => (
         to={Routes.REGISTER}
         className="btn btn-info btn-lg"
       >
-        <i className="fas thumbs-up " /> Sign up to fill up application form!
+        Sign up to fill up application form!
       </Link>
     </div>
   </div>

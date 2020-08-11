@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
 
+import FaIcon from '../displayComponents/faIcon/faIcon.component';
+
 import RegisterForm from './registerForm.component';
 
 const newAccount = {
@@ -22,7 +24,10 @@ const Register = () => {
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
-              <p className="h3"><i className="fa fa-user fa-4x" /></p>
+              <FaIcon
+                icon="user"
+                size={100}
+              />
               <h2 className="card-title my-3">Register</h2>
               <Formik
                 initialValues={newAccount}
