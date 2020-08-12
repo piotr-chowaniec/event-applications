@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
+import { userSchemas } from '@common-packages/validators';
 
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
 
@@ -31,6 +32,7 @@ const Register = () => {
               <h2 className="card-title my-3">Register</h2>
               <Formik
                 initialValues={newAccount}
+                validationSchema={userSchemas.registerUserSchema}
                 component={RegisterForm}
                 onSubmit={submitRegisterForm}
               />
