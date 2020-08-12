@@ -2,6 +2,8 @@
   "name": "event-applications",
   "version": "1.0.0",
   "description": "",
+  "author": "Piotr Chowaniec",
+  "license": "ISC",
   "main": "index.js",
   "engines": {
     "node": "12.18.3",
@@ -18,9 +20,11 @@
     "pre-push": "npm run lint && npm run pre-push:client"
   },
   "dependencies": {
+    "@common-packages/validators": "file:./commonPackages/validators",
     "bunyan": "^1.8.14",
     "express": "^4.17.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -32,8 +36,6 @@
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4"
   },
-  "author": "Piotr Chowaniec",
-  "license": "ISC",
   "husky": {
     "hooks": {
       "pre-push": "npm run pre-push"
