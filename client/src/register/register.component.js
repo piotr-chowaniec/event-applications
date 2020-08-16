@@ -5,6 +5,7 @@ import { userSchemas } from '@common-packages/validators';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
 
 import RegisterForm from './registerForm.component';
+import { useRegister } from './apiHooks/useRegister';
 
 const newAccount = {
   firstName: '',
@@ -15,9 +16,12 @@ const newAccount = {
 };
 
 const Register = () => {
+  const [registerUser, registerRequestData] = useRegister();
+  console.log(registerRequestData);
+
   const submitRegisterForm = useCallback(async values => {
-    console.log(values);
-  }, []);
+    await registerUser(values);
+  }, [registerUser]);
 
   return (
     <div id="page-content" className="container">
