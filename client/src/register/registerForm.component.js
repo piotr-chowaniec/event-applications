@@ -24,14 +24,14 @@ const RegisterForm = ({
     <Field
       name="email"
       placeholder="Email"
-      icon={{ iconName: 'user' }}
+      icon={{ iconName: 'envelope' }}
       component={InputGroup}
     />
     <Field
       name="password"
       type="password"
       placeholder="Password"
-      icon={{ iconName: 'envelope' }}
+      icon={{ iconName: 'lock' }}
       component={InputGroup}
     />
     <Field

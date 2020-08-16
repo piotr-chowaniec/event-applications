@@ -4,6 +4,13 @@ import { InputGroup, FormControl } from 'react-bootstrap';
 
 import FaIcon from '../faIcon/faIcon.component';
 
+const renderErrorMessage = (isInvalid, errorMessage) => {
+  if (!isInvalid) {
+    return null;
+  }
+  return <div className="invalid-feedback">{errorMessage}</div>;
+};
+
 const InputGroupFormik = ({
   field,
   form,
@@ -15,7 +22,7 @@ const InputGroupFormik = ({
   const { prefix, iconName, size } = icon;
 
   const isValid = Boolean(touched[field.name] && !errors[field.name]);
-  const isInvalid = Boolean(errors[field.name]);
+  const isInvalid = Boolean(touched[field.name] && errors[field.name]);
 
   return (
     <InputGroup className="mb-3">
@@ -38,6 +45,7 @@ const InputGroupFormik = ({
         isValid={isValid}
         isInvalid={isInvalid}
       />
+      {renderErrorMessage(isInvalid, errors[field.name])}
     </InputGroup>
   );
 };
