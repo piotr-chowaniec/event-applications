@@ -1,5 +1,6 @@
 const express = require('express');
 
+const eventApplicationsApp = require('./app');
 const { port } = require('./config');
 const loggingMiddleware = require('./infrastructure/middlewares/logging');
 
@@ -7,6 +8,8 @@ const loggingMiddleware = require('./infrastructure/middlewares/logging');
   const app = express();
 
   app.locals.logger = loggingMiddleware.createLogger();
+
+  eventApplicationsApp(app);
 
   const server = app.listen(port, () => {
     app.locals.logger.info(`Application started on port: ${server.address().port}`);
