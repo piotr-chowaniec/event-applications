@@ -1,0 +1,14 @@
+@import '../../style/_variables.scss';
+
+.alerts {
+  :global {
+    .alert {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 400px;
+      margin: 15px 5px;
+      z-index: $alert-z-index;
+    }
+  }
+}

@@ -8,10 +8,7 @@ module.exports = app => {
   app.use(bodyParser.json({ limit: '50mb' }));
 
   app.post('/api/register', async (req, res, next) => {
-    const { body } = req;
-
     try {
-      console.log(body);
       res.send({ message: 'api endpoint reached' });
     } catch (error) {
       next(error);

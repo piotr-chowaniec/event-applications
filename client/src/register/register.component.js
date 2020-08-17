@@ -16,9 +16,7 @@ const newAccount = {
 };
 
 const Register = () => {
-  const [registerUser, registerRequestData] = useRegister();
-  console.log(registerRequestData);
-
+  const [registerUser] = useRegister();
   const submitRegisterForm = useCallback(async values => {
     await registerUser(values);
   }, [registerUser]);
