@@ -2,4 +2,25 @@ version: '3'
 
 services:
   event-applications:
+    container_name: event-applications
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/client/node_modules
+    ports:
+      - 3000:3000
+    depends_on:
+      - sql-server
+
+  sql-server:
+    container_name: sql-server
     restart: on-failure
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=secretPassword123
+      - MSSQL_PID=Developer
