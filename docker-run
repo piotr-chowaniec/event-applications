@@ -33,7 +33,7 @@ const getArgs = () => {
   }
 
   if (program.down) {
-    return [dockerFileNameParam, 'down', '--volumes', '--remove-orphans'];
+    return [dockerFileNameParam, 'down'];
   }
 
   if (program.logs) {

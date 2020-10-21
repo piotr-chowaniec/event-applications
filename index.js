@@ -2,24 +2,14 @@ const express = require('express');
 
 const eventApplicationsApp = require('./app');
 const { port } = require('./config');
-const databaseConnectionServiceFactory = require('./infrastructure/services/databaseConnection');
+const { connectToDb } = require('./infrastructure/sequelize/sequelizeInstance');
 const loggingMiddleware = require('./infrastructure/middlewares/logging');
 
 (async function startup() {
   const app = express();
 
   app.locals.logger = loggingMiddleware.createLogger();
-  const {
-    getConnection,
-    closeConnection,
-  } = databaseConnectionServiceFactory(app.locals.logger);
-
-  try {
-    await getConnection();
-    app.locals.logger.info('Successfully created DB connection pool.');
-  } catch (error) {
-    app.locals.logger.error('Creating DB connection pool failed.', error);
-  }
+  const sequelizeInstance = await connectToDb(app.locals.logger);
 
   eventApplicationsApp(app);
 
@@ -28,7 +18,7 @@ const loggingMiddleware = require('./infrastructure/middlewares/logging');
   });
 
   server.on('close', () => {
-    closeConnection();
+    sequelizeInstance.close();
     process.exit();
   });
 
