@@ -2,7 +2,15 @@ const Sequelize = require('sequelize');
 
 const config = require('../../config');
 
+const UserModelDefinition = require('./models/user.model');
+
 const { database, username, password, host, port, dialect } = config.dbConfig;
+
+const associateTables = sequelizeInstance => {
+  const User = UserModelDefinition(sequelizeInstance);
+
+  return { User };
+};
 
 const sequelize = new Sequelize(database, username, password, {
   dialect,
@@ -18,6 +26,7 @@ const sequelize = new Sequelize(database, username, password, {
 const connectToDb = async logger => {
   try {
     await sequelize.authenticate();
+    await sequelize.sync();
     logger.info('Connection to the database has been established successfully.');
     return sequelize;
   } catch (err) {
@@ -26,7 +35,10 @@ const connectToDb = async logger => {
   }
 };
 
+const { User } = associateTables(sequelize);
+
 module.exports = {
   sequelize,
   connectToDb,
+  User,
 };
