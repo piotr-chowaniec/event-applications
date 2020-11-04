@@ -6,14 +6,14 @@ import { ReactQueryConfigProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
 
 import { configureStore } from './store';
-import { queryConfig } from './config';
+import config from './config';
 
 const store = configureStore();
 
 const Root = ({ children }) => (
   <Provider store={store}>
     <BrowserRouter >
-      <ReactQueryConfigProvider config={queryConfig}>
+      <ReactQueryConfigProvider config={config.QUERY_CONFIG}>
         {children}
       </ReactQueryConfigProvider>
       <ReactQueryDevtools initialIsOpen />

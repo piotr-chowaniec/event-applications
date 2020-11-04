@@ -1,19 +1,27 @@
 const express = require('express');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 
 const { isProductionEnvironment } = require('./config');
 const errorHandler = require('./infrastructure/middlewares/errorHandler');
+const loggingMiddleware = require('./infrastructure/middlewares/logging');
+const checkAuthToken = require('./infrastructure/middlewares/checkAuthToken');
+const verifyUserEmail = require('./infrastructure/middlewares/verifyUserEmail');
+const createPassportService = require('./infrastructure/services/auth/passport.service');
+const apiRoutes = require('./routes/apiRoutes');
+const userRoutes = require('./routes/user/userRoutes');
 
-module.exports = app => {
+module.exports = async app => {
+  app.use(loggingMiddleware.addLoggers);
   app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(passport.initialize());
+  createPassportService();
 
-  app.post('/api/register', async (req, res, next) => {
-    try {
-      res.send({ message: 'api endpoint reached' });
-    } catch (error) {
-      next(error);
-    }
-  });
+  app.use('/api', apiRoutes);
+  app.use('/api', checkAuthToken);
+  app.use('/api', verifyUserEmail);
+
+  app.use('/api/user', userRoutes({ router: express.Router() }));
 
   app.use(errorHandler);
 

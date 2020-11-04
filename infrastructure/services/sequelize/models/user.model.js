@@ -1,7 +1,9 @@
 const sequelize = require('sequelize');
 
-const User = sequelizeInstance =>
-  sequelizeInstance.define('User', {
+const { hashPassword, comparePassword } = require('../../passwordHashing');
+
+const getUserModel = sequelizeInstance => {
+  const User = sequelizeInstance.define('User', {
     id: {
       type: sequelize.INTEGER,
       unique: true,
@@ -28,12 +30,6 @@ const User = sequelizeInstance =>
         return () => this.getDataValue('password');
       },
     },
-    salt: {
-      type: sequelize.STRING,
-      get() {
-        return () => this.getDataValue('salt');
-      },
-    },
     role: {
       type: sequelize.STRING,
       defaultValue: 'participant',
@@ -47,4 +43,12 @@ const User = sequelizeInstance =>
     },
   });
 
-module.exports = User;
+  User.beforeCreate(hashPassword);
+  User.beforeUpdate(hashPassword);
+  User.comparePassword = (user, passwordToMatch) =>
+    comparePassword(passwordToMatch, user.get('password')());
+
+  return User;
+};
+
+module.exports = getUserModel;

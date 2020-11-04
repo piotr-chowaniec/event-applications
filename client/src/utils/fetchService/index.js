@@ -1,5 +1,8 @@
+import config from '../../config';
+
 import fetchServiceCreator, { postHeaders } from './fetchServiceCreator';
 import { handleErrors, parseAsJson } from './requestHelpers';
+import { storeToken, extractToken } from './tokenUtils';
 
 const replacer = (key, value) =>
   typeof value === 'undefined' ? null : value;
@@ -7,17 +10,22 @@ const replacer = (key, value) =>
 export const httpFetch = method => async ({
   route,
   errorMessage,
+  parseResponseErrorMessage,
   body,
 }) => (
   fetchServiceCreator(
     route,
     {
       method,
-      headers: method.toUpperCase() === 'GET' ? {} : postHeaders,
+      headers: {
+        ...method.toUpperCase() === 'GET' ? {} : postHeaders,
+        authorization: extractToken({ key: config.AUTH.ACCESS_TOKEN_KEY }),
+      },
       ...(body ? { body: JSON.stringify(body, replacer) } : {}),
     },
   )
-    .then(handleErrors({ errorMessage }))
+    .then(handleErrors({ errorMessage, parseResponseErrorMessage }))
+    .then(storeToken({ key: config.AUTH.ACCESS_TOKEN_KEY }))
 );
 
 export const httpGet = httpFetch('GET');

@@ -2,10 +2,13 @@ import { FORBIDDEN, UNAUTHORIZED, TEMPORARY_REDIRECT } from 'http-status-codes';
 
 const redirectToAuthorize = response => {
   const currentURL = window.location.href;
-  const origin = window.location.origin;
-  const apiURL = `/api/authenticate?redirect=${currentURL}&origin=${origin}`;
+  const accessDeniedPageUrl = `${window.location.origin}/login`;
 
-  return window.location.replace(apiURL) || response;
+  if (currentURL !== accessDeniedPageUrl) {
+    return window.location.replace(accessDeniedPageUrl);
+  }
+
+  return response;
 };
 
 const redirectToAccessDenied = response => {

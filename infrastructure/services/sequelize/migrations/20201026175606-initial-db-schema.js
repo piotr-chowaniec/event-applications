@@ -33,12 +33,6 @@ module.exports = {
           return () => this.getDataValue('password');
         },
       },
-      salt: {
-        type: Sequelize.STRING,
-        get() {
-          return () => this.getDataValue('salt');
-        },
-      },
       role: {
         type: Sequelize.STRING,
         defaultValue: 'participant',

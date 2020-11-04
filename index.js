@@ -2,7 +2,7 @@ const express = require('express');
 
 const eventApplicationsApp = require('./app');
 const { port } = require('./config');
-const { connectToDb } = require('./infrastructure/sequelize/sequelizeInstance');
+const { connectToDb } = require('./infrastructure/services/sequelize/sequelizeInstance');
 const loggingMiddleware = require('./infrastructure/middlewares/logging');
 
 (async function startup() {
