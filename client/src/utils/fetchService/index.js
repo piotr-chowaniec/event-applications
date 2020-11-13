@@ -19,13 +19,13 @@ export const httpFetch = method => async ({
       method,
       headers: {
         ...method.toUpperCase() === 'GET' ? {} : postHeaders,
-        authorization: extractToken({ key: config.AUTH.ACCESS_TOKEN_KEY }),
+        [config.AUTH.AUTHORIZATION_KEY]: extractToken(),
       },
       ...(body ? { body: JSON.stringify(body, replacer) } : {}),
     },
   )
     .then(handleErrors({ errorMessage, parseResponseErrorMessage }))
-    .then(storeToken({ key: config.AUTH.ACCESS_TOKEN_KEY }))
+    .then(storeToken())
 );
 
 export const httpGet = httpFetch('GET');

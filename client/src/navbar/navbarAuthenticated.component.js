@@ -1,0 +1,40 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
+
+import { Routes } from '../routes';
+import FaIcon from '../displayComponents/faIcon/faIcon.component';
+
+import { userPropTypes } from './propTypes';
+
+const NavbarLogin = ({ handleUserLogout, user }) => (
+  <NavDropdown
+    alignRight
+    id="navbarLogin"
+    title={`Logged In As: ${user.firstName} ${user.lastName}`}
+  >
+    <Link className="dropdown-item" to={Routes.PROFILE}>
+      <span className="pr-3">
+        <FaIcon icon="user"/>
+      </span>
+      Profile
+    </Link>
+    <NavDropdown.Divider />
+    <NavDropdown.Item
+      onClick={handleUserLogout}
+    >
+      <span className="pr-3">
+        <FaIcon icon="sign-out-alt"/>
+      </span>
+      Logout
+    </NavDropdown.Item>
+  </NavDropdown>
+);
+
+NavbarLogin.propTypes = {
+  user: userPropTypes,
+  handleUserLogout: PropTypes.func.isRequired,
+};
+
+export default NavbarLogin;

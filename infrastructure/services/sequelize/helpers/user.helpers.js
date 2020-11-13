@@ -31,8 +31,7 @@ const loginUser = async ({ email, password }) => {
     throw new Error('Invalid password or email');
   }
   const userData = getUserData(user);
-  const token = createToken(userData.email);
-  return `Bearer ${token}`;
+  return createToken(userData.email);
 };
 
 module.exports = {

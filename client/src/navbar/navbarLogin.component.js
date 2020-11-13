@@ -47,6 +47,7 @@ LoginForm.propTypes = {
 
 const NavbarLogin = ({ handleUserLogin }) => (
   <NavDropdown
+    alignRight
     id="navbarLogin"
     title="Login/Register"
   >

@@ -1,7 +1,12 @@
+const { getUserData, findUserByEmail } = require('../../infrastructure/services/sequelize/helpers/user.helpers');
+
 const userRoutes = ({ router }) => {
   router.get('/', async (req, res, next) => {
+    const { user } = res.locals;
+
     try {
-      res.statusStatus(200);
+      const userData = getUserData(await findUserByEmail(user.email));
+      res.send(userData);
     } catch (error) {
       next(error);
     }

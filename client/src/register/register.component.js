@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
 import { userSchemas } from '@common-packages/validators';
 
+import { Routes } from '../routes';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
+import { setUserData } from '../store/user/actions';
+import { useRegister, useFetchUserData } from '../store/hooks';
 
 import RegisterForm from './registerForm.component';
-import { useRegister } from './apiHooks/useRegister';
 
 const newAccount = {
   firstName: '',
@@ -15,11 +19,17 @@ const newAccount = {
   confirmPassword: '',
 };
 
-const Register = () => {
-  const [registerUser] = useRegister();
+const Register = ({ history }) => {
+  const dispatch = useDispatch();
+  const { call: registerUser } = useRegister();
+  const { call: fetchUserData } = useFetchUserData();
+
   const submitRegisterForm = useCallback(async values => {
     await registerUser(values);
-  }, [registerUser]);
+    const userData = await fetchUserData();
+    dispatch(setUserData(userData));
+    history.push(Routes.MAIN);
+  }, [registerUser, fetchUserData, dispatch, history]);
 
   return (
     <div id="page-content" className="container">
@@ -44,6 +54,12 @@ const Register = () => {
       </div>
     </div>
   );
+};
+
+Register.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default Register;

@@ -5,17 +5,15 @@ import { Routes } from './routes';
 
 const WelcomePage = () => (
   <div id="page-content" className="container text-white text-center">
-    <div className="container text-center">
-      <h1>Sign up for Event</h1>
-      <h3>Hurry up! Number of places is limited!</h3>
-      <hr />
-      <Link
-        to={Routes.REGISTER}
-        className="btn btn-info btn-lg"
-      >
-        Sign up to fill up application form!
-      </Link>
-    </div>
+    <h1>Sign up for Event</h1>
+    <h3>Hurry up! Number of places is limited!</h3>
+    <hr />
+    <Link
+      to={Routes.REGISTER}
+      className="btn btn-info btn-lg"
+    >
+      Sign up to fill up application form!
+    </Link>
   </div>
 );
 
