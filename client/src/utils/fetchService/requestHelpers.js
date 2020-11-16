@@ -1,4 +1,3 @@
-import get from 'lodash.get';
 import { OK, MULTIPLE_CHOICES, TEMPORARY_REDIRECT, UNAUTHORIZED } from 'http-status-codes';
 
 import ErrorsFactory from './errorsFactory';
@@ -32,7 +31,7 @@ export const handleErrors = ({ errorMessage, parseResponseErrorMessage }) => res
   if (parseResponseErrorMessage) {
     return parseAsJson(response)
       .then(responseError => {
-        const message = get(responseError, 'message', errorMessage);
+        const message = responseError?.message ? responseError.message : errorMessage;
         throw ErrorsFactory.FetchingError(message, response.status);
       });
   }
