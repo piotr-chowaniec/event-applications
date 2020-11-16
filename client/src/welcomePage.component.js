@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Routes } from './routes';
+import routes from './routes';
 
 const WelcomePage = () => (
   <div id="page-content" className="container text-white text-center">
@@ -9,7 +9,7 @@ const WelcomePage = () => (
     <h3>Hurry up! Number of places is limited!</h3>
     <hr />
     <Link
-      to={Routes.REGISTER}
+      to={routes.REGISTER}
       className="btn btn-info btn-lg"
     >
       Sign up to fill up application form!

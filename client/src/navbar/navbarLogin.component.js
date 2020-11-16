@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { NavDropdown, Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
-import { Routes } from '../routes';
+import routes from '../routes';
 import Input from '../displayComponents/forms/inputFormik';
 
 const login = {
@@ -60,7 +60,7 @@ const NavbarLogin = ({ handleUserLogin }) => (
       />
     </div>
     <NavDropdown.Divider />
-    <Link className="dropdown-item" to={Routes.REGISTER}>New around here? Register!</Link>
+    <Link className="dropdown-item" to={routes.REGISTER}>New around here? Register!</Link>
   </NavDropdown>
 );
 

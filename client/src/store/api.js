@@ -1,4 +1,9 @@
-import { httpGetAndParse, httpPost, httpPostAndParse } from '../utils/fetchService';
+import {
+  httpPost,
+  httpPut,
+  httpGetAndParse,
+  httpPostAndParse,
+} from '../utils/fetchService';
 
 export const loginUser = (requestParams = {}) => body => httpPostAndParse({
   ...requestParams,
@@ -15,4 +20,10 @@ export const registerUser = (requestParams = {}) => body => httpPost({
 export const fetchUserData = (requestParams = {}) => () => httpGetAndParse({
   ...requestParams,
   route: '/api/user',
+});
+
+export const updateProfile = (requestParams = {}) => body => httpPut({
+  ...requestParams,
+  route: '/api/user',
+  body,
 });

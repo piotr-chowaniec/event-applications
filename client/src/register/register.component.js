@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { userSchemas } from '@common-packages/validators';
 
-import { Routes } from '../routes';
+import routes from '../routes';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
 import { setUserData } from '../store/user/actions';
 import { useRegister, useFetchUserData } from '../store/hooks';
@@ -28,7 +28,7 @@ const Register = ({ history }) => {
     await registerUser(values);
     const userData = await fetchUserData();
     dispatch(setUserData(userData));
-    history.push(Routes.MAIN);
+    history.push(routes.MAIN);
   }, [registerUser, fetchUserData, dispatch, history]);
 
   return (

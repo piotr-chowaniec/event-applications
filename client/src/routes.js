@@ -6,9 +6,15 @@ const authRoutes = {
 
 const routes = {
   MAIN: '/',
-  PROFILE: '/profile',
 };
 
-module.exports = {
-  Routes: { ...authRoutes, ...routes },
+const userRoutes = {
+  PROFILE: '/user/profile',
+  PASSWORD: '/user/password',
+};
+
+export default {
+  ...authRoutes,
+  ...routes,
+  ...userRoutes,
 };

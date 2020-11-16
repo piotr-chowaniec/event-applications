@@ -21,6 +21,29 @@ const getAllUsers = async () =>
     order: [['lastName', 'ASC']],
   });
 
+
+const updateUserProfile = async (currentUser, updatedFields) => {
+  const user = await User.findOne({
+    where: {
+      id: currentUser.id,
+    },
+  });
+
+  const updatableFields = [
+    'firstName',
+    'lastName',
+    'email',
+  ];
+
+  updatableFields.forEach(field => {
+    if (typeof updatedFields[field] !== 'undefined') {
+      user.setDataValue(field, updatedFields[field]);
+    }
+  });
+
+  await user.save();
+};
+
 const loginUser = async ({ email, password }) => {
   const user = await findUserByEmail(email);
   if (!user) {
@@ -38,5 +61,6 @@ module.exports = {
   getUserData,
   findUserByEmail,
   getAllUsers,
+  updateUserProfile,
   loginUser,
 };

@@ -24,6 +24,13 @@ export const useFetchUserData = () => apiActionFactory({
   errorMessage: 'Fetching user data failed',
 });
 
+export const useUpdateProfile = () => apiActionFactory({
+  apiAction: api.updateProfile,
+  successMessage: 'Profile updated',
+  errorMessage: 'Updating profile data failed',
+  parseResponseErrorMessage: true,
+});
+
 export const FetchUserData = async () => {
   const dispatch = useDispatch();
   const { call: fetchUserData } = useFetchUserData();

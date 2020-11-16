@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 
-import { Routes } from '../routes';
+import routes from '../routes';
+import { userPropTypes } from '../shared/propTypes';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
-
-import { userPropTypes } from './propTypes';
 
 const NavbarLogin = ({ handleUserLogout, user }) => (
   <NavDropdown
@@ -14,7 +13,7 @@ const NavbarLogin = ({ handleUserLogout, user }) => (
     id="navbarLogin"
     title={`Logged In As: ${user.firstName} ${user.lastName}`}
   >
-    <Link className="dropdown-item" to={Routes.PROFILE}>
+    <Link className="dropdown-item" to={routes.PROFILE}>
       <span className="pr-3">
         <FaIcon icon="user"/>
       </span>

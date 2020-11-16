@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
-import { Routes } from '../routes';
+import routes from '../routes';
 import { setUserData } from '../store/user/actions';
 import { userDataSelector } from '../store/user/selectors';
 import { addSuccessNotification } from '../store/notifications/actions';
 import { useLogin, useFetchUserData } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
+import { userPropTypes } from '../shared/propTypes';
 
 import NavbarLogin from './navbarLogin.component';
 import NavbarAuthenticated from './navbarAuthenticated.component';
-import { userPropTypes } from './propTypes';
 
 const renderNavbarButtons = () => null;
 
@@ -37,7 +37,7 @@ const MenuNavbar = ({
     resetToken();
     setUserData();
     addSuccessNotification('Successfully logged out');
-    history.push(Routes.MAIN);
+    history.push(routes.MAIN);
   }, [setUserData, addSuccessNotification, history]);
 
   const renderUserDropdown = useCallback(() => (
@@ -50,7 +50,7 @@ const MenuNavbar = ({
     <Navbar bg="light" variant="light" expand="lg" fixed="top">
       <Container>
         <Link
-          to={Routes.MAIN}
+          to={routes.MAIN}
           className="navbar-brand mr-5"
         >
           Event<strong>Application</strong>

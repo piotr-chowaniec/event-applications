@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const httpStatus = require('http-status-codes');
+const get = require('lodash.get');
 
 const checkAuthToken = require('../infrastructure/middlewares/checkAuthToken');
 const { User } = require('../infrastructure/services/sequelize/sequelizeInstance');
@@ -27,7 +28,8 @@ router.post('/register', async (req, res, next) => {
     res.header(authentication.accessTokenKey, token);
     res.sendStatus(httpStatus.NO_CONTENT);
   } catch (error) {
-    if (error.parent.errno === 1062) {
+    const errorNo = get(error, 'parent.errno', null);
+    if (errorNo === 1062) {
       error.message = 'Sorry, that email is already in use';
     }
     next(error);
