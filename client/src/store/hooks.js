@@ -31,6 +31,12 @@ export const useUpdateProfile = () => apiActionFactory({
   parseResponseErrorMessage: true,
 });
 
+export const useUpdatePassword = () => apiActionFactory({
+  apiAction: api.updatePassword,
+  successMessage: 'Password updated',
+  errorMessage: 'Updating password failed',
+});
+
 export const FetchUserData = async () => {
   const dispatch = useDispatch();
   const { call: fetchUserData } = useFetchUserData();

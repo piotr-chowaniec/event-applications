@@ -44,6 +44,18 @@ const updateUserProfile = async (currentUser, updatedFields) => {
   await user.save();
 };
 
+const updateUserPassword = async (currentUser, newPassword) => {
+  const user = await User.findOne({
+    where: {
+      id: currentUser.id,
+    },
+  });
+
+  user.setDataValue('password', newPassword);
+
+  await user.save();
+};
+
 const loginUser = async ({ email, password }) => {
   const user = await findUserByEmail(email);
   if (!user) {
@@ -62,5 +74,6 @@ module.exports = {
   findUserByEmail,
   getAllUsers,
   updateUserProfile,
+  updateUserPassword,
   loginUser,
 };

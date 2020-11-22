@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
@@ -11,13 +11,49 @@ import { setUserData } from '../store/user/actions';
 import { userDataSelector } from '../store/user/selectors';
 import { useFetchUserData, useUpdateProfile } from '../store/hooks';
 import { userPropTypes } from '../shared/propTypes';
-
-import ProfileForm from './profileForm.component';
+import Input from '../displayComponents/forms/inputFormik';
 
 const initialUser = {
   firstName: '',
   lastName: '',
   email: '',
+};
+
+const ProfileForm = ({
+  dirty,
+}) => (
+  <Form>
+    <Field
+      label="First name"
+      name="firstName"
+      placeholder="First Name"
+      component={Input}
+    />
+    <Field
+      label="Last name"
+      name="lastName"
+      placeholder="Last Name"
+      component={Input}
+    />
+    <Field
+      label="Email"
+      name="email"
+      placeholder="Email"
+      component={Input}
+    />
+    <Button
+      type="submit"
+      block
+      variant="outline-success"
+      disabled={!dirty}
+    >
+      Submit
+    </Button>
+  </Form>
+);
+
+ProfileForm.propTypes = {
+  dirty: PropTypes.bool.isRequired,
 };
 
 const Profile = ({

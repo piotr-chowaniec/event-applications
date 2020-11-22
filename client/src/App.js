@@ -11,6 +11,7 @@ import AccessDenied from './accessDenied.component';
 import WelcomePage from './welcomePage.component';
 import Register from './register/register.component';
 import Profile from './profile/profile.container';
+import PasswordChangeForm from './profile/passwordChange';
 import routes from './routes';
 import './style/styles.scss';
 
@@ -27,6 +28,7 @@ const Application = ({ history }) => {
           <Switch >
             <Route exact path={routes.REGISTER} component={Register}/>
             <Route exact path={routes.PROFILE} component={Profile}/>
+            <Route exact path={routes.PASSWORD} component={PasswordChangeForm}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>

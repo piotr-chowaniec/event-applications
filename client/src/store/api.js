@@ -27,3 +27,9 @@ export const updateProfile = (requestParams = {}) => body => httpPut({
   route: '/api/user',
   body,
 });
+
+export const updatePassword = (requestParams = {}) => body => httpPut({
+  ...requestParams,
+  route: '/api/user/password',
+  body,
+});

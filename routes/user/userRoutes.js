@@ -1,10 +1,13 @@
 const get = require('lodash.get');
 const httpStatus = require('http-status-codes');
 
+const { authentication } = require('../../config');
 const {
+  loginUser,
   getUserData,
   findUserByEmail,
   updateUserProfile,
+  updateUserPassword,
 } = require('../../infrastructure/services/sequelize/helpers/user.helpers');
 
 const userRoutes = ({ router }) => {
@@ -30,6 +33,20 @@ const userRoutes = ({ router }) => {
       if (errorNo === 1062) {
         error.message = 'Sorry, that email is already in use';
       }
+      next(error);
+    }
+  });
+
+  router.put('/password', async (req, res, next) => {
+    const { user } = res.locals;
+    const { password } = req.body;
+
+    try {
+      await updateUserPassword(user, password);
+      const token = await loginUser({ email: user.email, password });
+      res.header(authentication.accessTokenKey, token);
+      res.sendStatus(httpStatus.NO_CONTENT);
+    } catch (error) {
       next(error);
     }
   });
