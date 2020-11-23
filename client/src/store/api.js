@@ -1,6 +1,7 @@
 import {
   httpPost,
   httpPut,
+  httpDelete,
   httpGetAndParse,
   httpPostAndParse,
 } from '../utils/fetchService';
@@ -23,6 +24,12 @@ export const fetchUserData = (requestParams = {}) => () => httpGetAndParse({
 });
 
 export const updateProfile = (requestParams = {}) => body => httpPut({
+  ...requestParams,
+  route: '/api/user',
+  body,
+});
+
+export const deleteProfile = (requestParams = {}) => body => httpDelete({
   ...requestParams,
   route: '/api/user',
   body,

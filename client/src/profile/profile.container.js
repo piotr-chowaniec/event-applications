@@ -8,10 +8,12 @@ import { userSchemas } from '@common-packages/validators';
 
 import routes from '../routes';
 import { setUserData } from '../store/user/actions';
-import { userDataSelector } from '../store/user/selectors';
-import { useFetchUserData, useUpdateProfile } from '../store/hooks';
+import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
+import { useFetchUserData, useUpdateProfile, useDeleteProfile } from '../store/hooks';
+import { resetToken } from '../utils/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
 import Input from '../displayComponents/forms/inputFormik';
+import useModal from '../shared/hooks/useModal';
 
 const initialUser = {
   firstName: '',
@@ -56,12 +58,27 @@ ProfileForm.propTypes = {
   dirty: PropTypes.bool.isRequired,
 };
 
+const ModalBody = (
+  <>
+    <h5>Dear User. Be careful.</h5>
+    <p>
+      Are you sure you want to remove your profile?
+      Profile removal can&apos;t be undone.
+    </p>
+  </>
+);
+
 const Profile = ({
+  history,
+
   user,
+  userDisplayName,
   setUserData,
 }) => {
+  const { Modal, showModal } = useModal();
   const { call: fetchUserData } = useFetchUserData();
   const { call: updateProfile } = useUpdateProfile();
+  const { call: deleteProfile } = useDeleteProfile();
 
   const onFetchUserData = useCallback(async () => {
     const userData = await fetchUserData();
@@ -77,6 +94,13 @@ const Profile = ({
     await onFetchUserData();
   }, [updateProfile, onFetchUserData]);
 
+  const onProfileRemove = useCallback(async () => {
+    await deleteProfile();
+    resetToken();
+    setUserData();
+    history.push(routes.MAIN);
+  }, [deleteProfile, setUserData, history]);
+
   return (
     <div id="page-content" className="container">
       <div className="row justify-content-center">
@@ -84,7 +108,7 @@ const Profile = ({
           <div className="card text-center my-4">
             <div className="card-body">
               <h3 className="card-title my-3">
-                {`${user.firstName} ${user.lastName} Profile Page`}
+                {userDisplayName}
               </h3>
               <p><code className="text-muted">Change your profile data</code></p>
               <div className="text-left">
@@ -103,8 +127,9 @@ const Profile = ({
                 </Link>
                 <Button
                   block
-                  variant="outline-danger"
                   className="my-3"
+                  variant="outline-danger"
+                  onClick={showModal}
                 >
                   Remove Your Profile
                 </Button>
@@ -113,18 +138,30 @@ const Profile = ({
           </div>
         </div>
       </div>
+      <Modal
+        title="Remove Profile"
+        body={ModalBody}
+        confirmButtonDescription="Remove Profile permanently"
+        onConfirm={onProfileRemove}
+      />
     </div>
   );
 };
 
 Profile.propTypes = ({
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+
   user: userPropTypes,
+  userDisplayName: PropTypes.string.isRequired,
   setUserData: PropTypes.func.isRequired,
 });
 
 export default connect(
   state => ({
     user: userDataSelector(state),
+    userDisplayName: userDisplayNameSelector(state),
   }),
   {
     setUserData,

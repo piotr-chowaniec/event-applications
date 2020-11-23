@@ -21,14 +21,13 @@ const ApiActionFactory = ({
     onError: error => dispatch(addErrorNotification(
       parseResponseErrorMessage ? error?.message : errorMessage,
     )),
-    throwOnError: true,
   };
 
-  const [call, response] = useMutation(requestMethod, options);
+  const [call, status] = useMutation(requestMethod, options);
 
   return {
     call,
-    response,
+    status,
   };
 };
 

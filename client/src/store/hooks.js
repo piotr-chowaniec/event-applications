@@ -31,6 +31,12 @@ export const useUpdateProfile = () => apiActionFactory({
   parseResponseErrorMessage: true,
 });
 
+export const useDeleteProfile = () => apiActionFactory({
+  apiAction: api.deleteProfile,
+  successMessage: 'Profile removed',
+  errorMessage: 'Removing profile failed',
+});
+
 export const useUpdatePassword = () => apiActionFactory({
   apiAction: api.updatePassword,
   successMessage: 'Password updated',

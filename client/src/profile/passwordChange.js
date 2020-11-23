@@ -7,9 +7,8 @@ import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
 import routes from '../routes';
-import { userDataSelector } from '../store/user/selectors';
+import { userDisplayNameSelector } from '../store/user/selectors';
 import { useUpdatePassword } from '../store/hooks';
-import { userPropTypes } from '../shared/propTypes';
 import InputGroup from '../displayComponents/forms/inputGroupFormik';
 
 const initialPassword = {
@@ -50,12 +49,16 @@ PasswordChangeForm.propTypes = {
   dirty: PropTypes.bool.isRequired,
 };
 
-const PasswordChange = ({ user }) => {
+const PasswordChange = ({
+  history,
+  userDisplayName,
+}) => {
   const { call: updatePassword } = useUpdatePassword();
 
   const onPasswordUpdate = useCallback(async values => {
     await updatePassword(values);
-  }, [updatePassword]);
+    history.push(routes.PROFILE);
+  }, [updatePassword, history]);
 
   return (
     <div id="page-content" className="container">
@@ -64,7 +67,7 @@ const PasswordChange = ({ user }) => {
           <div className="card text-center my-4">
             <div className="card-body">
               <h3 className="card-title my-3">
-                {`${user.firstName} ${user.lastName} Profile Page`}
+                {userDisplayName}
               </h3>
               <p><code className="text-muted">Change your password</code></p>
               <div className="text-left">
@@ -91,12 +94,15 @@ const PasswordChange = ({ user }) => {
 };
 
 PasswordChange.propTypes = ({
-  user: userPropTypes,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+  userDisplayName: PropTypes.string.isRequired,
 });
 
 export default connect(
   state => ({
-    user: userDataSelector(state),
+    userDisplayName: userDisplayNameSelector(state),
   }),
   null,
 )(PasswordChange);

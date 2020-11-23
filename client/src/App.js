@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
 import { Switch, Route } from 'react-router-dom';
 
 import { FetchUserData } from './store/hooks';
@@ -11,11 +12,15 @@ import AccessDenied from './accessDenied.component';
 import WelcomePage from './welcomePage.component';
 import Register from './register/register.component';
 import Profile from './profile/profile.container';
-import PasswordChangeForm from './profile/passwordChange';
+import PasswordChange from './profile/passwordChange';
 import routes from './routes';
 import './style/styles.scss';
 
 const Application = ({ history }) => {
+  useEffect(() => {
+    Modal.setAppElement('body');
+  }, []);
+
   FetchUserData();
 
   return (
@@ -28,7 +33,7 @@ const Application = ({ history }) => {
           <Switch >
             <Route exact path={routes.REGISTER} component={Register}/>
             <Route exact path={routes.PROFILE} component={Profile}/>
-            <Route exact path={routes.PASSWORD} component={PasswordChangeForm}/>
+            <Route exact path={routes.PASSWORD} component={PasswordChange}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>

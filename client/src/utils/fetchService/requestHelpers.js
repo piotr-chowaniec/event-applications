@@ -2,7 +2,6 @@ import { OK, MULTIPLE_CHOICES, TEMPORARY_REDIRECT, UNAUTHORIZED } from 'http-sta
 
 import ErrorsFactory from './errorsFactory';
 
-
 export const parseAsJson = response => {
   if (response.status === TEMPORARY_REDIRECT) {
     return null;
@@ -17,7 +16,10 @@ export const parseAsJson = response => {
   throw ErrorsFactory.FetchingError('Cannot parse response as JSON', response.status);
 };
 
-export const handleErrors = ({ errorMessage, parseResponseErrorMessage }) => response => {
+export const handleErrors = ({
+  errorMessage,
+  parseResponseErrorMessage = false,
+}) => response => {
   const responseSuccessful = response.status >= OK && response.status < MULTIPLE_CHOICES;
 
   if (responseSuccessful || response.status === TEMPORARY_REDIRECT) {

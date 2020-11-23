@@ -6,7 +6,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import routes from '../routes';
 import { setUserData } from '../store/user/actions';
-import { userDataSelector } from '../store/user/selectors';
+import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { addSuccessNotification } from '../store/notifications/actions';
 import { useLogin, useFetchUserData } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
@@ -21,6 +21,7 @@ const MenuNavbar = ({
   history,
 
   user,
+  userDisplayName,
   setUserData,
   addSuccessNotification,
 }) => {
@@ -42,9 +43,9 @@ const MenuNavbar = ({
 
   const renderUserDropdown = useCallback(() => (
     user?.id
-      ? <NavbarAuthenticated handleUserLogout={handleUserLogout} user={user}/>
+      ? <NavbarAuthenticated handleUserLogout={handleUserLogout} userDisplayName={userDisplayName}/>
       : <NavbarLogin handleUserLogin={handleUserLogin}/>
-  ), [handleUserLogin, handleUserLogout, user]);
+  ), [handleUserLogin, handleUserLogout, user, userDisplayName]);
 
   return (
     <Navbar bg="light" variant="light" expand="lg" fixed="top">
@@ -78,6 +79,7 @@ MenuNavbar.propTypes = {
   }),
 
   user: userPropTypes,
+  userDisplayName: PropTypes.string.isRequired,
   setUserData: PropTypes.func.isRequired,
   addSuccessNotification: PropTypes.func.isRequired,
 };
@@ -85,6 +87,7 @@ MenuNavbar.propTypes = {
 export default connect(
   state => ({
     user: userDataSelector(state),
+    userDisplayName: userDisplayNameSelector(state),
   }),
   {
     setUserData,

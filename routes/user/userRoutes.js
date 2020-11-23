@@ -8,6 +8,7 @@ const {
   findUserByEmail,
   updateUserProfile,
   updateUserPassword,
+  deleteProfile,
 } = require('../../infrastructure/services/sequelize/helpers/user.helpers');
 
 const userRoutes = ({ router }) => {
@@ -33,6 +34,18 @@ const userRoutes = ({ router }) => {
       if (errorNo === 1062) {
         error.message = 'Sorry, that email is already in use';
       }
+      next(error);
+    }
+  });
+
+  router.delete('/', async (req, res, next) => {
+    const { user } = res.locals;
+
+    try {
+      await deleteProfile(user);
+      res.removeHeader(authentication.accessTokenKey);
+      res.sendStatus(httpStatus.NO_CONTENT);
+    } catch (error) {
       next(error);
     }
   });
