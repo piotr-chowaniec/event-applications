@@ -25,8 +25,11 @@ const ApiActionFactory = ({
 
   const [call, status] = useMutation(requestMethod, options);
 
+  const { isLoading } = status;
+
   return {
     call,
+    isLoading,
     status,
   };
 };

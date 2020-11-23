@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
@@ -12,6 +12,7 @@ import { userDataSelector, userDisplayNameSelector } from '../store/user/selecto
 import { useFetchUserData, useUpdateProfile, useDeleteProfile } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
+import Loading from '../displayComponents/loading.component';
 import Input from '../displayComponents/forms/inputFormik';
 import useModal from '../shared/hooks/useModal';
 
@@ -20,6 +21,16 @@ const initialUser = {
   lastName: '',
   email: '',
 };
+
+const ModalBody = (
+  <>
+    <h5>Dear User. Be careful.</h5>
+    <p>
+      Are you sure you want to remove your profile?
+      Profile removal can&apos;t be undone.
+    </p>
+  </>
+);
 
 const ProfileForm = ({
   dirty,
@@ -58,16 +69,6 @@ ProfileForm.propTypes = {
   dirty: PropTypes.bool.isRequired,
 };
 
-const ModalBody = (
-  <>
-    <h5>Dear User. Be careful.</h5>
-    <p>
-      Are you sure you want to remove your profile?
-      Profile removal can&apos;t be undone.
-    </p>
-  </>
-);
-
 const Profile = ({
   history,
 
@@ -76,9 +77,9 @@ const Profile = ({
   setUserData,
 }) => {
   const { Modal, showModal } = useModal();
-  const { call: fetchUserData } = useFetchUserData();
-  const { call: updateProfile } = useUpdateProfile();
-  const { call: deleteProfile } = useDeleteProfile();
+  const { call: fetchUserData, isLoading: isFetchUserLoading } = useFetchUserData();
+  const { call: updateProfile, isLoading: isUpdateProfileLoading } = useUpdateProfile();
+  const { call: deleteProfile, isLoading: isDeleteProfileLoading } = useDeleteProfile();
 
   const onFetchUserData = useCallback(async () => {
     const userData = await fetchUserData();
@@ -101,39 +102,58 @@ const Profile = ({
     history.push(routes.MAIN);
   }, [deleteProfile, setUserData, history]);
 
+  const isLoading = isFetchUserLoading || isUpdateProfileLoading || isDeleteProfileLoading;
+  const loadingMessage = useMemo(() => {
+    if (isFetchUserLoading) {
+      return 'Loading User data...';
+    }
+    if (isUpdateProfileLoading) {
+      return 'Updating User data...';
+    }
+    if (isDeleteProfileLoading) {
+      return 'Deleting User Data...';
+    }
+  }, [isFetchUserLoading, isUpdateProfileLoading, isDeleteProfileLoading]);
+
   return (
     <div id="page-content" className="container">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
-              <h3 className="card-title my-3">
-                {userDisplayName}
-              </h3>
-              <p><code className="text-muted">Change your profile data</code></p>
-              <div className="text-left">
-                <Formik
-                  initialValues={user?.id ? user : initialUser}
-                  validationSchema={userSchemas.updateProfileSchema}
-                  component={ProfileForm}
-                  onSubmit={onUserUpdate}
-                  enableReinitialize
-                />
-                <Link
-                  to={routes.PASSWORD}
-                  className="btn btn-block btn-outline-warning my-3"
-                >
-                  Change Password
-                </Link>
-                <Button
-                  block
-                  className="my-3"
-                  variant="outline-danger"
-                  onClick={showModal}
-                >
-                  Remove Your Profile
-                </Button>
-              </div>
+              <Loading
+                isLoading={isLoading}
+                loadingMessage={loadingMessage}
+              >
+                <h3 className="card-title my-3">
+                  {userDisplayName}
+                </h3>
+                <p><code className="text-muted">Change your profile data</code></p>
+                <div className="text-left">
+                  <Formik
+                    initialValues={user?.id ? user : initialUser}
+                    validationSchema={userSchemas.updateProfileSchema}
+                    component={ProfileForm}
+                    onSubmit={onUserUpdate}
+                    enableReinitialize
+                  />
+                  <Link
+                    to={routes.PASSWORD}
+                    className="btn btn-block btn-outline-warning my-3"
+                  >
+                    Change Password
+                  </Link>
+                  <Button
+                    block
+                    className="my-3"
+                    variant="outline-danger"
+                    onClick={showModal}
+                    disabled={isLoading}
+                  >
+                    Remove Your Profile
+                  </Button>
+                </div>
+              </Loading>
             </div>
           </div>
         </div>
