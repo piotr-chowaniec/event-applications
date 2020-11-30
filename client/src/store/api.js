@@ -29,14 +29,29 @@ export const updateProfile = (requestParams = {}) => body => httpPut({
   body,
 });
 
-export const deleteProfile = (requestParams = {}) => body => httpDelete({
+export const deleteProfile = (requestParams = {}) => () => httpDelete({
   ...requestParams,
   route: '/api/user',
-  body,
 });
 
 export const updatePassword = (requestParams = {}) => body => httpPut({
   ...requestParams,
   route: '/api/user/password',
   body,
+});
+
+export const createApplication = (requestParams = {}) => body => httpPost({
+  ...requestParams,
+  route: '/api/application',
+  body,
+});
+
+export const fetchApplication = (requestParams = {}) => () => httpGetAndParse({
+  ...requestParams,
+  route: '/api/application',
+});
+
+export const deleteApplication = (requestParams = {}) => () => httpDelete({
+  ...requestParams,
+  route: '/api/application',
 });

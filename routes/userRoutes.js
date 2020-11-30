@@ -1,7 +1,6 @@
-const get = require('lodash.get');
 const httpStatus = require('http-status-codes');
 
-const { authentication } = require('../../config');
+const { authentication } = require('../config');
 const {
   loginUser,
   getUserData,
@@ -9,7 +8,8 @@ const {
   updateUserProfile,
   updateUserPassword,
   deleteProfile,
-} = require('../../infrastructure/services/sequelize/helpers/user.helpers');
+} = require('../infrastructure/services/sequelize/helpers/user.helpers');
+const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
 
 const userRoutes = ({ router }) => {
   router.get('/', async (req, res, next) => {
@@ -30,10 +30,9 @@ const userRoutes = ({ router }) => {
       await updateUserProfile(user, req.body);
       res.sendStatus(httpStatus.NO_CONTENT);
     } catch (error) {
-      const errorNo = get(error, 'parent.errno', null);
-      if (errorNo === 1062) {
-        error.message = 'Sorry, that email is already in use';
-      }
+      error.message = isValidationError(error)
+        ? 'Sorry, that email is already in use'
+        : error.message;
       next(error);
     }
   });

@@ -9,3 +9,15 @@ export const userDisplayNameSelector = createSelector(
     ? `${user?.firstName} ${user?.lastName}`
     : '',
 );
+export const isAuthenticatedSelector = createSelector(
+  [
+    userDataSelector,
+  ],
+  user => Boolean(user?.id),
+);
+export const isAdminSelector = createSelector(
+  [
+    userDataSelector,
+  ],
+  user => user?.role === 'admin',
+);

@@ -9,7 +9,8 @@ const checkAuthToken = require('./infrastructure/middlewares/checkAuthToken');
 const verifyUserEmail = require('./infrastructure/middlewares/verifyUserEmail');
 const createPassportService = require('./infrastructure/services/auth/passport.service');
 const apiRoutes = require('./routes/apiRoutes');
-const userRoutes = require('./routes/user/userRoutes');
+const userRoutes = require('./routes/userRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
 module.exports = async app => {
   app.use(loggingMiddleware.addLoggers);
@@ -22,6 +23,7 @@ module.exports = async app => {
   app.use('/api', verifyUserEmail);
 
   app.use('/api/user', userRoutes({ router: express.Router() }));
+  app.use('/api/application', applicationRoutes({ router: express.Router() }));
 
   app.use(errorHandler);
 

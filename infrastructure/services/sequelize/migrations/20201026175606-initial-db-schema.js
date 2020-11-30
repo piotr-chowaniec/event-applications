@@ -6,7 +6,7 @@ module.exports = {
       'ALTER DATABASE eventApplication CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
     );
 
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         unique: true,
@@ -36,6 +36,38 @@ module.exports = {
       role: {
         type: Sequelize.STRING,
         defaultValue: 'participant',
+        validate: {
+          isIn: [['participant', 'admin']],
+        },
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
+    });
+
+    await queryInterface.createTable('applications', {
+      id: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      eventDate: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -48,6 +80,8 @@ module.exports = {
   },
 
   down: async queryInterface => {
+    await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS=0');
     await queryInterface.dropTable('users');
+    await queryInterface.dropTable('applications');
   },
 };

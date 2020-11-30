@@ -3,13 +3,17 @@ const Sequelize = require('sequelize');
 const config = require('../../../config');
 
 const UserModelDefinition = require('./models/user.model');
+const ApplicationModelDefinition = require('./models/application.model');
 
 const { database, username, password, host, port, dialect } = config.dbConfig;
 
 const associateTables = sequelizeInstance => {
   const User = UserModelDefinition(sequelizeInstance);
+  const Application = ApplicationModelDefinition(sequelizeInstance);
 
-  return { User };
+  Application.belongsTo(User);
+
+  return { User, Application };
 };
 
 const sequelize = new Sequelize(database, username, password, {
@@ -35,10 +39,11 @@ const connectToDb = async logger => {
   }
 };
 
-const { User } = associateTables(sequelize);
+const { User, Application } = associateTables(sequelize);
 
 module.exports = {
   sequelize,
   connectToDb,
   User,
+  Application,
 };

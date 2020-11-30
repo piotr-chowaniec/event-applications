@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: async queryInterface => queryInterface.bulkInsert('Users', [{
+  up: async queryInterface => queryInterface.bulkInsert('users', [{
     email: 'admin@eventapplications.com',
     firstName: 'John',
     lastName: 'Smith',
@@ -11,5 +11,5 @@ module.exports = {
     updatedAt: null,
   }]),
 
-  down: async queryInterface => queryInterface.bulkDelete('Users', null, {}),
+  down: async queryInterface => queryInterface.bulkDelete('users', null, {}),
 };

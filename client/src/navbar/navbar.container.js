@@ -6,21 +6,19 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import routes from '../routes';
 import { setUserData } from '../store/user/actions';
-import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
+import { isAuthenticatedSelector, isAdminSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { addSuccessNotification } from '../store/notifications/actions';
 import { useLogin, useFetchUserData } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
-import { userPropTypes } from '../shared/propTypes';
 
 import NavbarLogin from './navbarLogin.component';
 import NavbarAuthenticated from './navbarAuthenticated.component';
 
-const renderNavbarButtons = () => null;
-
 const MenuNavbar = ({
   history,
 
-  user,
+  isAuthenticated,
+  isAdmin,
   userDisplayName,
   setUserData,
   addSuccessNotification,
@@ -41,11 +39,33 @@ const MenuNavbar = ({
     history.push(routes.MAIN);
   }, [setUserData, addSuccessNotification, history]);
 
+  const renderNavbarButtons = useCallback(() => {
+    if (isAuthenticated) {
+      if (isAdmin) {
+        return (
+          <>
+            <Nav.Item>
+              <Link to={`/applications`} className="nav-link">Event Applications List</Link>
+            </Nav.Item>
+          </>
+        );
+      }
+      return (
+        <Nav.Item>
+          <Link to={`/application`} className="nav-link">Your Application</Link>
+        </Nav.Item>
+      );
+    }
+
+    return null;
+  }, [isAdmin, isAuthenticated]);
+
+
   const renderUserDropdown = useCallback(() => (
-    user?.id
+    isAuthenticated
       ? <NavbarAuthenticated handleUserLogout={handleUserLogout} userDisplayName={userDisplayName}/>
       : <NavbarLogin handleUserLogin={handleUserLogin}/>
-  ), [handleUserLogin, handleUserLogout, user, userDisplayName]);
+  ), [handleUserLogin, handleUserLogout, isAuthenticated, userDisplayName]);
 
   return (
     <Navbar bg="light" variant="light" expand="lg" fixed="top">
@@ -78,7 +98,8 @@ MenuNavbar.propTypes = {
     push: PropTypes.func.isRequired,
   }),
 
-  user: userPropTypes,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   userDisplayName: PropTypes.string.isRequired,
   setUserData: PropTypes.func.isRequired,
   addSuccessNotification: PropTypes.func.isRequired,
@@ -86,7 +107,8 @@ MenuNavbar.propTypes = {
 
 export default connect(
   state => ({
-    user: userDataSelector(state),
+    isAuthenticated: isAuthenticatedSelector(state),
+    isAdmin: isAdminSelector(state),
     userDisplayName: userDisplayNameSelector(state),
   }),
   {

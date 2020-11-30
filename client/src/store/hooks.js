@@ -59,3 +59,23 @@ export const FetchUserData = async () => {
     getUserData();
   }, [getUserData]);
 };
+
+export const useCreateApplication = () => apiActionFactory({
+  apiAction: api.createApplication,
+  successMessage: 'Event Application successfully created',
+  errorMessage: 'Submitting application failed',
+  parseResponseErrorMessage: true,
+});
+
+export const useFetchApplication = () => apiActionFactory({
+  apiAction: api.fetchApplication,
+  errorMessage: 'Fetching current application failed',
+});
+
+export const useDeleteApplication = () => apiActionFactory({
+  apiAction: api.deleteApplication,
+  successMessage: 'Event Application removed',
+  errorMessage: 'Removing Event Application failed',
+});
+
+

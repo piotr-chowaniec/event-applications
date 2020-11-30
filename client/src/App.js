@@ -13,10 +13,11 @@ import WelcomePage from './welcomePage.component';
 import Register from './register/register.component';
 import Profile from './profile/profile.container';
 import PasswordChange from './profile/passwordChange';
+import Application from './application/application.component';
 import routes from './routes';
 import './style/styles.scss';
 
-const Application = ({ history }) => {
+const EventApplications = ({ history }) => {
   useEffect(() => {
     Modal.setAppElement('body');
   }, []);
@@ -34,6 +35,7 @@ const Application = ({ history }) => {
             <Route exact path={routes.REGISTER} component={Register}/>
             <Route exact path={routes.PROFILE} component={Profile}/>
             <Route exact path={routes.PASSWORD} component={PasswordChange}/>
+            <Route exact path={routes.APPLICATION} component={Application}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>
@@ -42,7 +44,7 @@ const Application = ({ history }) => {
   );
 };
 
-Application.propTypes = {
+EventApplications.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }),
@@ -51,7 +53,7 @@ Application.propTypes = {
 const App = () => (
   <Switch>
     <Route exact path={routes.ACCESS_DENIED} component={AccessDenied} />
-    <Route component={Application} />
+    <Route component={EventApplications} />
   </Switch>
 );
 

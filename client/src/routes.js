@@ -6,6 +6,9 @@ const authRoutes = {
 
 const routes = {
   MAIN: '/',
+  APPLICATION: '/application',
+  APPLICATION_EDIT: '/application/edit',
+  APPLICATIONS: '/applications',
 };
 
 const userRoutes = {

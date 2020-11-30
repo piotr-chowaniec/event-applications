@@ -3,7 +3,7 @@ const sequelize = require('sequelize');
 const { hashPassword, comparePassword } = require('../../passwordHashing');
 
 const getUserModel = sequelizeInstance => {
-  const User = sequelizeInstance.define('User', {
+  const User = sequelizeInstance.define('user', {
     id: {
       type: sequelize.INTEGER,
       unique: true,
@@ -33,6 +33,9 @@ const getUserModel = sequelizeInstance => {
     role: {
       type: sequelize.STRING,
       defaultValue: 'participant',
+      validate: {
+        isIn: [['participant', 'admin']],
+      },
     },
     createdAt: {
       type: sequelize.DATE,
