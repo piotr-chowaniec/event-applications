@@ -80,9 +80,9 @@ const PasswordChange = ({
                 />
                 <Link
                   to={routes.PROFILE.PATH}
-                  className="btn btn-block btn-outline-warning my-3"
+                  className="btn btn-block btn-outline-danger my-3"
                 >
-                  Back
+                  Cancel
                 </Link>
               </div>
             </div>

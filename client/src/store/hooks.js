@@ -72,6 +72,12 @@ export const useFetchApplication = () => apiActionFactory({
   errorMessage: 'Fetching current application failed',
 });
 
+export const useUpdateApplication = () => apiActionFactory({
+  apiAction: api.updateApplication,
+  successMessage: 'Event Application successfully updated',
+  errorMessage: 'Updating application failed',
+});
+
 export const useDeleteApplication = () => apiActionFactory({
   apiAction: api.deleteApplication,
   successMessage: 'Event Application removed',

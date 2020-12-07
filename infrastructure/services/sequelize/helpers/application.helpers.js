@@ -7,6 +7,18 @@ const getUserApplication = async currentUser =>
     },
   });
 
+const updateUserApplication = async (currentUser, newEventDate) => {
+  const application = await Application.findOne({
+    where: {
+      id: currentUser.id,
+    },
+  });
+
+  application.setDataValue('eventDate', newEventDate);
+
+  await application.save();
+};
+
 const deleteUserApplication = async currentUser => {
   const application = await Application.findOne({
     where: {
@@ -19,5 +31,6 @@ const deleteUserApplication = async currentUser => {
 
 module.exports = {
   getUserApplication,
+  updateUserApplication,
   deleteUserApplication,
 };

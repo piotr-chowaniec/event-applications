@@ -1,40 +1,14 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { applicationSchema } from '@common-packages/validators';
 
-import Input from '../displayComponents/forms/inputFormik';
 import { useCreateApplication } from '../store/hooks';
+
+import ApplicationForm from './applicationForm.component';
 
 const newApplication = {
   eventDate: '',
-};
-
-const NewApplicationForm = ({
-  dirty,
-}) => (
-  <Form>
-    <Field
-      name="eventDate"
-      type="date"
-      placeholder="Insert date"
-      label="Choose event date you would like to participate"
-      component={Input}
-    />
-    <Button
-      type="submit"
-      block
-      variant="outline-success"
-      disabled={!dirty}
-    >
-      Submit
-    </Button>
-  </Form>
-);
-
-NewApplicationForm.propTypes = {
-  dirty: PropTypes.bool.isRequired,
 };
 
 const NewApplication = ({
@@ -54,7 +28,7 @@ const NewApplication = ({
         <Formik
           initialValues={newApplication}
           validationSchema={applicationSchema}
-          component={NewApplicationForm}
+          component={ApplicationForm}
           onSubmit={onApplicationCreate}
         />
       </div>

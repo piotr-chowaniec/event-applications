@@ -51,6 +51,12 @@ export const fetchApplication = (requestParams = {}) => () => httpGetAndParse({
   route: '/api/application',
 });
 
+export const updateApplication = (requestParams = {}) => body => httpPut({
+  ...requestParams,
+  route: '/api/application',
+  body,
+});
+
 export const deleteApplication = (requestParams = {}) => () => httpDelete({
   ...requestParams,
   route: '/api/application',
