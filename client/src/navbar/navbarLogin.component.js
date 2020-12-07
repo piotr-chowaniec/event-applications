@@ -60,7 +60,7 @@ const NavbarLogin = ({ handleUserLogin }) => (
       />
     </div>
     <NavDropdown.Divider />
-    <Link className="dropdown-item" to={routes.REGISTER}>New around here? Register!</Link>
+    <Link className="dropdown-item" to={routes.REGISTER.PATH}>New around here? Register!</Link>
   </NavDropdown>
 );
 

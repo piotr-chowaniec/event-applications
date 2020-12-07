@@ -9,7 +9,7 @@ const WelcomePage = () => (
     <h3>Hurry up! Number of places is limited!</h3>
     <hr />
     <Link
-      to={routes.REGISTER}
+      to={routes.REGISTER.PATH}
       className="btn btn-info btn-lg"
     >
       Sign up to fill up application form!

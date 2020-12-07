@@ -1,19 +1,40 @@
+import { compile } from 'path-to-regexp';
+
 const authRoutes = {
-  LOGIN: '/login',
-  REGISTER: '/register',
-  ACCESS_DENIED: '/access-denied',
+  LOGIN: {
+    PATH: '/login',
+  },
+  REGISTER: {
+    PATH: '/register',
+  },
+  ACCESS_DENIED: {
+    PATH: '/access-denied',
+  },
 };
 
 const routes = {
-  MAIN: '/',
-  APPLICATION: '/application',
-  APPLICATION_EDIT: '/application/edit',
-  APPLICATIONS: '/applications',
+  MAIN: {
+    PATH: '/',
+  },
+  APPLICATION: {
+    PATH: '/application',
+  },
+  APPLICATION_EDIT: {
+    PATH: '/application/:applicationId',
+    compileRoute: compile('/application/:applicationId'),
+  },
+  APPLICATIONS: {
+    PATH: '/applications',
+  },
 };
 
 const userRoutes = {
-  PROFILE: '/user/profile',
-  PASSWORD: '/user/password',
+  PROFILE: {
+    PATH: '/user/profile',
+  },
+  PASSWORD: {
+    PATH: '/user/password',
+  },
 };
 
 export default {

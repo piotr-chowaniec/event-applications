@@ -12,7 +12,7 @@ const NavbarLogin = ({ handleUserLogout, userDisplayName }) => (
     id="navbarLogin"
     title={`Logged In As: ${userDisplayName}`}
   >
-    <Link className="dropdown-item" to={routes.PROFILE}>
+    <Link className="dropdown-item" to={routes.PROFILE.PATH}>
       <span className="pr-3">
         <FaIcon icon="user"/>
       </span>

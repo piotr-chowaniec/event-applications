@@ -99,7 +99,7 @@ const Profile = ({
     await deleteProfile();
     resetToken();
     setUserData();
-    history.push(routes.MAIN);
+    history.push(routes.MAIN.PATH);
   }, [deleteProfile, setUserData, history]);
 
   const isLoading = isFetchUserLoading || isUpdateProfileLoading || isDeleteProfileLoading;
@@ -138,7 +138,7 @@ const Profile = ({
                     enableReinitialize
                   />
                   <Link
-                    to={routes.PASSWORD}
+                    to={routes.PASSWORD.PATH}
                     className="btn btn-block btn-outline-warning my-3"
                   >
                     Change Password

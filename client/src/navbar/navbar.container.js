@@ -36,7 +36,7 @@ const MenuNavbar = ({
     resetToken();
     setUserData();
     addSuccessNotification('Successfully logged out');
-    history.push(routes.MAIN);
+    history.push(routes.MAIN.PATH);
   }, [setUserData, addSuccessNotification, history]);
 
   const renderNavbarButtons = useCallback(() => {
@@ -71,7 +71,7 @@ const MenuNavbar = ({
     <Navbar bg="light" variant="light" expand="lg" fixed="top">
       <Container>
         <Link
-          to={routes.MAIN}
+          to={routes.MAIN.PATH}
           className="navbar-brand mr-5"
         >
           Event<strong>Application</strong>

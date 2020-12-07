@@ -57,7 +57,7 @@ const PasswordChange = ({
 
   const onPasswordUpdate = useCallback(async values => {
     await updatePassword(values);
-    history.push(routes.PROFILE);
+    history.push(routes.PROFILE.PATH);
   }, [updatePassword, history]);
 
   return (
@@ -79,7 +79,7 @@ const PasswordChange = ({
                   enableReinitialize
                 />
                 <Link
-                  to={routes.PROFILE}
+                  to={routes.PROFILE.PATH}
                   className="btn btn-block btn-outline-warning my-3"
                 >
                   Back

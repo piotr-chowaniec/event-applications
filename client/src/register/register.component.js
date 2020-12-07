@@ -28,7 +28,7 @@ const Register = ({ history }) => {
     await registerUser(values);
     const userData = await fetchUserData();
     dispatch(setUserData(userData));
-    history.push(routes.MAIN);
+    history.push(routes.MAIN.PATH);
   }, [registerUser, fetchUserData, dispatch, history]);
 
   return (

@@ -63,7 +63,7 @@ const ApplicationCurrent = ({
         </dl>
       </div>
       <Link
-        to={routes.APPLICATION_EDIT}
+        to={routes.APPLICATION_EDIT.compileRoute({ applicationId: application?.id })}
         className="btn btn-block btn-outline-info my-3"
       >
         Edit Your Event Application
@@ -89,6 +89,7 @@ const ApplicationCurrent = ({
 
 ApplicationCurrent.propTypes = {
   application: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     eventDate: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
   }),

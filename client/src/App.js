@@ -32,10 +32,11 @@ const EventApplications = ({ history }) => {
         <div id="main-page" className="d-flex justify-content-center align-items-center">
           <div id="overlay" />
           <Switch >
-            <Route exact path={routes.REGISTER} component={Register}/>
-            <Route exact path={routes.PROFILE} component={Profile}/>
-            <Route exact path={routes.PASSWORD} component={PasswordChange}/>
-            <Route exact path={routes.APPLICATION} component={Application}/>
+            <Route exact path={routes.REGISTER.PATH} component={Register}/>
+            <Route exact path={routes.PROFILE.PATH} component={Profile}/>
+            <Route exact path={routes.PASSWORD.PATH} component={PasswordChange}/>
+            <Route exact path={routes.APPLICATION.PATH} component={Application}/>
+            <Route exact path={routes.APPLICATION_EDIT.PATH} component={Application}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>
@@ -52,7 +53,7 @@ EventApplications.propTypes = {
 
 const App = () => (
   <Switch>
-    <Route exact path={routes.ACCESS_DENIED} component={AccessDenied} />
+    <Route exact path={routes.ACCESS_DENIED.PATH} component={AccessDenied} />
     <Route component={EventApplications} />
   </Switch>
 );
