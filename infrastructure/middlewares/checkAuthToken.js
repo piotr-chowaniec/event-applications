@@ -1,4 +1,4 @@
-const httpStatus = require('http-status-codes');
+const { StatusCodes, getReasonPhrase } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 
 const { authentication } = require('../../config');
@@ -14,9 +14,9 @@ const checkAuthToken = async (req, res, next) => {
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(httpStatus.UNAUTHORIZED).send(httpStatus.getStatusText(httpStatus.UNAUTHORIZED));
+      return res.status(StatusCodes.UNAUTHORIZED).send(getReasonPhrase(StatusCodes.UNAUTHORIZED));
     }
-    return res.status(httpStatus.BAD_REQUEST).send(httpStatus.getStatusText(httpStatus.BAD_REQUEST));
+    return res.status(StatusCodes.BAD_REQUEST).send(getReasonPhrase(StatusCodes.BAD_REQUEST));
   }
 };
 

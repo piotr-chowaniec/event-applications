@@ -37,8 +37,11 @@ const userRoutes = {
   },
 };
 
-export default {
+const appRoutes = {
   ...authRoutes,
   ...routes,
   ...userRoutes,
 };
+
+
+export default appRoutes;

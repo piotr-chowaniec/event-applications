@@ -1,6 +1,8 @@
-import { OK, MULTIPLE_CHOICES, TEMPORARY_REDIRECT, UNAUTHORIZED } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
 import ErrorsFactory from './errorsFactory';
+
+const { OK, MULTIPLE_CHOICES, TEMPORARY_REDIRECT, UNAUTHORIZED } = StatusCodes;
 
 export const parseAsJson = response => {
   if (response.status === TEMPORARY_REDIRECT) {

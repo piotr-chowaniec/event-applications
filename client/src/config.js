@@ -1,4 +1,4 @@
-export default {
+const config = {
   AUTH: {
     ACCESS_TOKEN_KEY: process.env.ACCESS_TOKEN_KEY || 'access_token',
     AUTHORIZATION_KEY: process.env.AUTHORIZATION_KEY || 'authorization',
@@ -10,3 +10,5 @@ export default {
     refetchOnWindowFocus: false,
   },
 };
+
+export default config;

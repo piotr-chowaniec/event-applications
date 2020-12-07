@@ -1,4 +1,4 @@
-import { FORBIDDEN, UNAUTHORIZED, TEMPORARY_REDIRECT } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
 const redirectToAuthorize = response => {
   const currentURL = window.location.href;
@@ -55,11 +55,11 @@ const fetchServiceCreator = async (url, config = {}) => {
     const response = await fetch(`${url}`, params);
 
     switch (response.status) {
-      case UNAUTHORIZED:
+      case StatusCodes.UNAUTHORIZED:
         return redirectToAuthorize(response);
-      case FORBIDDEN:
+      case StatusCodes.FORBIDDEN:
         return redirectToAccessDenied(response);
-      case TEMPORARY_REDIRECT:
+      case StatusCodes.TEMPORARY_REDIRECT:
         return redirectToTargetUrl(response);
       default:
         return response;

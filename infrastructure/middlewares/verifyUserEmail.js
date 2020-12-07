@@ -1,4 +1,4 @@
-const httpStatus = require('http-status-codes');
+const { StatusCodes, getReasonPhrase } = require('http-status-codes');
 
 const { findUserByEmail, getUserData } = require('../services/sequelize/helpers/user.helpers');
 
@@ -10,14 +10,14 @@ const verifyUserEmail = async (req, res, next) => {
     const user = await findUserByEmail(email);
 
     if (!user) {
-      return res.status(httpStatus.FORBIDDEN).send(httpStatus.getStatusText(httpStatus.FORBIDDEN));
+      return res.status(StatusCodes.FORBIDDEN).send(getReasonPhrase(StatusCodes.FORBIDDEN));
     }
 
     res.locals.user = { ...res.locals.user, ...getUserData(user) };
     next();
   } catch (error) {
     logger.error(error);
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
   }
 };
 

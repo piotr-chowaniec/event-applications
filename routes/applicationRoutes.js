@@ -1,4 +1,4 @@
-const httpStatus = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 
 const { Application } = require('../infrastructure/services/sequelize/sequelizeInstance');
 const {
@@ -29,7 +29,7 @@ const applicationRoutes = ({ router }) => {
         eventDate,
         userId: user.id,
       });
-      res.sendStatus(httpStatus.NO_CONTENT);
+      res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       error.message = isValidationError(error)
         ? `Sorry, you're already registered to event`
@@ -44,7 +44,7 @@ const applicationRoutes = ({ router }) => {
 
     try {
       await updateUserApplication(user, eventDate);
-      res.sendStatus(httpStatus.NO_CONTENT);
+      res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);
     }
@@ -55,7 +55,7 @@ const applicationRoutes = ({ router }) => {
 
     try {
       await deleteUserApplication(user);
-      res.sendStatus(httpStatus.NO_CONTENT);
+      res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);
     }

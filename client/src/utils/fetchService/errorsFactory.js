@@ -25,7 +25,9 @@ class UnauthorizedError extends Error {
   }
 }
 
-export default {
+const errors = {
   FetchingError: (message, status) => new FetchingError(message, status),
   UnauthorizedError: message => new UnauthorizedError(message),
 };
+
+export default errors;

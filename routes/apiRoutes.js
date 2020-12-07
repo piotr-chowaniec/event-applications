@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const httpStatus = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 
 const checkAuthToken = require('../infrastructure/middlewares/checkAuthToken');
 const { User } = require('../infrastructure/services/sequelize/sequelizeInstance');
@@ -26,7 +26,7 @@ router.post('/register', async (req, res, next) => {
     });
     const token = await loginUser({ email, password });
     res.header(authentication.accessTokenKey, token);
-    res.sendStatus(httpStatus.NO_CONTENT);
+    res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     error.message = isValidationError(error)
       ? 'Sorry, that email is already in use'
@@ -47,7 +47,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/authorize', passport.authenticate('jwt'), (req, res) => {
-  res.sendStatus(httpStatus.NO_CONTENT);
+  res.sendStatus(StatusCodes.NO_CONTENT);
 });
 
 router.get('/test-auth', checkAuthToken, (req, res) => {
