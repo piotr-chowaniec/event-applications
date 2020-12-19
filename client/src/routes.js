@@ -30,7 +30,7 @@ const routes = {
 
 const userRoutes = {
   PROFILE: {
-    PATH: '/user/profile',
+    PATH: '/user',
   },
   PASSWORD: {
     PATH: '/user/password',
