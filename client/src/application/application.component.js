@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { useFetchApplication } from '../store/hooks';
+import { useFetchUserApplication } from '../store/hooks';
 
 import ApplicationNew from './applicationNew.component';
 import ApplicationCurrent from './applicationCurrent.container';
 
 const Application = () => {
-  const { call: fetchApplication, status: { data: application } } = useFetchApplication();
+  const { call: fetchApplication, status: { data: application } } = useFetchUserApplication();
 
   useEffect(() => {
     fetchApplication();

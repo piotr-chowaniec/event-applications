@@ -67,15 +67,31 @@ export const useCreateApplication = () => apiActionFactory({
   parseResponseErrorMessage: true,
 });
 
+export const useFetchUserApplication = () => apiActionFactory({
+  apiAction: api.fetchUserApplication,
+  errorMessage: 'Fetching current application failed',
+});
+
 export const useFetchApplication = () => apiActionFactory({
   apiAction: api.fetchApplication,
   errorMessage: 'Fetching current application failed',
+});
+
+export const useFetchAllApplications = () => apiActionFactory({
+  apiAction: api.fetchAllApplications,
+  errorMessage: 'Fetching applications failed',
 });
 
 export const useUpdateApplication = () => apiActionFactory({
   apiAction: api.updateApplication,
   successMessage: 'Event Application successfully updated',
   errorMessage: 'Updating application failed',
+});
+
+export const useDeleteUserApplication = () => apiActionFactory({
+  apiAction: api.deleteUserApplication,
+  successMessage: 'Event Application removed',
+  errorMessage: 'Removing Event Application failed',
 });
 
 export const useDeleteApplication = () => apiActionFactory({

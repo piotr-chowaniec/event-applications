@@ -45,14 +45,17 @@ const MenuNavbar = ({
         return (
           <>
             <Nav.Item>
-              <Link to={`/applications`} className="nav-link">Event Applications List</Link>
+              <Link to={routes.APPLICATIONS.PATH} className="nav-link">Event Applications List</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to={routes.APPLICATION.PATH} className="nav-link">Your Application</Link>
             </Nav.Item>
           </>
         );
       }
       return (
         <Nav.Item>
-          <Link to={`/application`} className="nav-link">Your Application</Link>
+          <Link to={routes.APPLICATION.PATH} className="nav-link">Your Application</Link>
         </Nav.Item>
       );
     }

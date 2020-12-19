@@ -46,9 +46,19 @@ export const createApplication = (requestParams = {}) => body => httpPost({
   body,
 });
 
-export const fetchApplication = (requestParams = {}) => () => httpGetAndParse({
+export const fetchUserApplication = (requestParams = {}) => () => httpGetAndParse({
   ...requestParams,
   route: '/api/application',
+});
+
+export const fetchApplication = (requestParams = {}) => ({ id }) => httpGetAndParse({
+  ...requestParams,
+  route: `/api/application/${id}`,
+});
+
+export const fetchAllApplications = (requestParams = {}) => () => httpGetAndParse({
+  ...requestParams,
+  route: '/api/application/all',
 });
 
 export const updateApplication = (requestParams = {}) => body => httpPut({
@@ -57,7 +67,12 @@ export const updateApplication = (requestParams = {}) => body => httpPut({
   body,
 });
 
-export const deleteApplication = (requestParams = {}) => () => httpDelete({
+export const deleteUserApplication = (requestParams = {}) => () => httpDelete({
   ...requestParams,
   route: '/api/application',
+});
+
+export const deleteApplication = (requestParams = {}) => ({ id }) => httpDelete({
+  ...requestParams,
+  route: `/api/application/${id}`,
 });

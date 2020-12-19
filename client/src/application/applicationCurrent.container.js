@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { parseISO, format } from 'date-fns';
 
 import routes from '../routes';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
-import { useDeleteApplication } from '../store/hooks';
+import { useDeleteUserApplication } from '../store/hooks';
 import { userPropTypes } from '../shared/propTypes';
 import useModal from '../shared/hooks/useModal';
-
-const transformToDate = date => {
-  const parsedIsoDate = parseISO(date);
-  return format(parsedIsoDate, 'PPPP');
-};
+import { transformToDate } from '../displayComponents/formatters';
 
 const ModalBody = (
   <>
@@ -33,7 +28,7 @@ const ApplicationCurrent = ({
   userDisplayName,
 }) => {
   const { Modal, showModal } = useModal();
-  const { call: deleteApplication } = useDeleteApplication();
+  const { call: deleteApplication } = useDeleteUserApplication();
 
   const onApplicationRemove = useCallback(async () => {
     await deleteApplication();

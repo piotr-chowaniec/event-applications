@@ -3,7 +3,10 @@ const { StatusCodes } = require('http-status-codes');
 const { Application } = require('../infrastructure/services/sequelize/sequelizeInstance');
 const {
   getUserApplication,
+  getApplication,
+  getAllApplication,
   deleteUserApplication,
+  deleteApplication,
   updateUserApplication,
 } = require('../infrastructure/services/sequelize/helpers/application.helpers');
 const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
@@ -55,6 +58,37 @@ const applicationRoutes = ({ router }) => {
 
     try {
       await deleteUserApplication(user);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/all', async (req, res, next) => {
+    try {
+      const application = await getAllApplication();
+      res.send(application || {});
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      const application = await getApplication(id);
+      res.send(application || {});
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.delete('/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      await deleteApplication(id);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);

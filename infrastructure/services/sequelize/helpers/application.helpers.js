@@ -1,9 +1,24 @@
-const { Application } = require('../sequelizeInstance');
+const { User, Application } = require('../sequelizeInstance');
 
 const getUserApplication = async currentUser =>
   await Application.findOne({
     where: {
       userId: currentUser.id,
+    },
+  });
+
+const getApplication = async id =>
+  await Application.findOne({
+    where: {
+      id,
+    },
+  });
+
+const getAllApplication = async () =>
+  await Application.findAll({
+    include: {
+      model: User,
+      attributes: ['id', 'email', 'firstName', 'lastName', 'role'],
     },
   });
 
@@ -29,8 +44,22 @@ const deleteUserApplication = async currentUser => {
   await application.destroy();
 };
 
+
+const deleteApplication = async id => {
+  const application = await Application.findOne({
+    where: {
+      id,
+    },
+  });
+
+  await application.destroy();
+};
+
 module.exports = {
   getUserApplication,
+  getApplication,
+  getAllApplication,
   updateUserApplication,
   deleteUserApplication,
+  deleteApplication,
 };

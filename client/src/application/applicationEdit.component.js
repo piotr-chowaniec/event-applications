@@ -1,34 +1,40 @@
 import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { applicationSchema } from '@common-packages/validators';
-import { parseISO, format } from 'date-fns';
 
 import routes from '../routes';
 import { useFetchApplication, useUpdateApplication } from '../store/hooks';
+import { transformToDate } from '../displayComponents/formatters';
 
 import ApplicationForm from './applicationForm.component';
 
 const ApplicationEdit = ({
   history,
+  match,
 }) => {
+  const { applicationId } = match.params;
   const { call: fetchApplication, status: { data: application } } = useFetchApplication();
   const { call: updateApplication } = useUpdateApplication();
 
   useEffect(() => {
-    fetchApplication();
-  }, [fetchApplication]);
+    fetchApplication({ id: applicationId });
+  }, [fetchApplication, applicationId]);
 
   const onApplicationEdit = useCallback(async values => {
     await updateApplication(values);
     history.push(routes.APPLICATION.PATH);
   }, [history, updateApplication]);
 
+  const onBack = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
   const initialValues = useMemo(() => (
     application?.eventDate
       ? {
-        eventDate: format(parseISO(application?.eventDate), 'yyyy-MM-dd'),
+        eventDate: transformToDate(application?.eventDate, 'yyyy-MM-dd'),
       }
       : {
         eventDate: '',
@@ -42,7 +48,7 @@ const ApplicationEdit = ({
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
-              <h3 className="card-title my-3">Edit your Event Application</h3>
+              <h3 className="card-title my-3">Edit Event Application</h3>
               <div className="text-left">
                 {application?.id && <Formik
                   initialValues={initialValues}
@@ -52,12 +58,14 @@ const ApplicationEdit = ({
                   enableReinitialize
                 />}
               </div>
-              <Link
-                to={routes.APPLICATION.PATH}
-                className="btn btn-block btn-outline-danger my-3"
+              <Button
+                block
+                variant="outline-danger"
+                className="my-3"
+                onClick={onBack}
               >
                 Cancel
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -69,6 +77,12 @@ const ApplicationEdit = ({
 ApplicationEdit.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      applicationId: PropTypes.string.isRequired,
+    }),
   }),
 };
 
