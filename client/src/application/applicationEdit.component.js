@@ -4,7 +4,6 @@ import { Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { applicationSchema } from '@common-packages/validators';
 
-import routes from '../routes';
 import { useFetchApplication, useUpdateApplication } from '../store/hooks';
 import { transformToDate } from '../displayComponents/formatters';
 
@@ -19,13 +18,13 @@ const ApplicationEdit = ({
   const { call: updateApplication } = useUpdateApplication();
 
   useEffect(() => {
-    fetchApplication({ id: applicationId });
+    fetchApplication({ applicationId });
   }, [fetchApplication, applicationId]);
 
   const onApplicationEdit = useCallback(async values => {
-    await updateApplication(values);
-    history.push(routes.APPLICATION.PATH);
-  }, [history, updateApplication]);
+    await updateApplication({ ...values, applicationId });
+    history.goBack();
+  }, [updateApplication, history, applicationId]);
 
   const onBack = useCallback(() => {
     history.goBack();
@@ -76,7 +75,6 @@ const ApplicationEdit = ({
 
 ApplicationEdit.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }),
   match: PropTypes.shape({

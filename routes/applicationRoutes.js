@@ -7,7 +7,7 @@ const {
   getAllApplication,
   deleteUserApplication,
   deleteApplication,
-  updateUserApplication,
+  updateApplication,
 } = require('../infrastructure/services/sequelize/helpers/application.helpers');
 const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
 
@@ -41,18 +41,6 @@ const applicationRoutes = ({ router }) => {
     }
   });
 
-  router.put('/', async (req, res, next) => {
-    const { user } = res.locals;
-    const { eventDate } = req.body;
-
-    try {
-      await updateUserApplication(user, eventDate);
-      res.sendStatus(StatusCodes.NO_CONTENT);
-    } catch (error) {
-      next(error);
-    }
-  });
-
   router.delete('/', async (req, res, next) => {
     const { user } = res.locals;
 
@@ -73,22 +61,34 @@ const applicationRoutes = ({ router }) => {
     }
   });
 
-  router.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.get('/:applicationId', async (req, res, next) => {
+    const { applicationId } = req.params;
 
     try {
-      const application = await getApplication(id);
+      const application = await getApplication(applicationId);
       res.send(application || {});
     } catch (error) {
       next(error);
     }
   });
 
-  router.delete('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.put('/:applicationId', async (req, res, next) => {
+    const { applicationId } = req.params;
+    const { eventDate } = req.body;
 
     try {
-      await deleteApplication(id);
+      await updateApplication(applicationId, eventDate);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.delete('/:applicationId', async (req, res, next) => {
+    const { applicationId } = req.params;
+
+    try {
+      await deleteApplication(applicationId);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);

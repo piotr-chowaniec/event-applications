@@ -72,9 +72,9 @@ export const fetchUserApplication = (requestParams = {}) => () => httpGetAndPars
   route: '/api/application',
 });
 
-export const fetchApplication = (requestParams = {}) => ({ id }) => httpGetAndParse({
+export const fetchApplication = (requestParams = {}) => ({ applicationId }) => httpGetAndParse({
   ...requestParams,
-  route: `/api/application/${id}`,
+  route: `/api/application/${applicationId}`,
 });
 
 export const fetchAllApplications = (requestParams = {}) => () => httpGetAndParse({
@@ -82,9 +82,9 @@ export const fetchAllApplications = (requestParams = {}) => () => httpGetAndPars
   route: '/api/application/all',
 });
 
-export const updateApplication = (requestParams = {}) => body => httpPut({
+export const updateApplication = (requestParams = {}) => ({ applicationId, ...body }) => httpPut({
   ...requestParams,
-  route: '/api/application',
+  route: `/api/application/${applicationId}`,
   body,
 });
 
@@ -93,7 +93,7 @@ export const deleteUserApplication = (requestParams = {}) => () => httpDelete({
   route: '/api/application',
 });
 
-export const deleteApplication = (requestParams = {}) => ({ id }) => httpDelete({
+export const deleteApplication = (requestParams = {}) => ({ applicationId }) => httpDelete({
   ...requestParams,
-  route: `/api/application/${id}`,
+  route: `/api/application/${applicationId}`,
 });

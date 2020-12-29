@@ -74,22 +74,22 @@ const userRoutes = ({ router }) => {
     }
   });
 
-  router.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.get('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
 
     try {
-      const userData = getUserData(await findUserById(id));
+      const userData = getUserData(await findUserById(userId));
       res.send(userData);
     } catch (error) {
       next(error);
     }
   });
 
-  router.put('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.put('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
 
     try {
-      await updateUserProfile(id, req.body);
+      await updateUserProfile(userId, req.body);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       error.message = isValidationError(error)
@@ -99,11 +99,11 @@ const userRoutes = ({ router }) => {
     }
   });
 
-  router.delete('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.delete('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
 
     try {
-      await deleteProfile(id);
+      await deleteProfile(userId);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);

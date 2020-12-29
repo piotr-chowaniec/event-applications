@@ -22,10 +22,10 @@ const getAllApplication = async () =>
     },
   });
 
-const updateUserApplication = async (currentUser, newEventDate) => {
+const updateApplication = async (id, newEventDate) => {
   const application = await Application.findOne({
     where: {
-      id: currentUser.id,
+      id,
     },
   });
 
@@ -59,7 +59,7 @@ module.exports = {
   getUserApplication,
   getApplication,
   getAllApplication,
-  updateUserApplication,
+  updateApplication,
   deleteUserApplication,
   deleteApplication,
 };

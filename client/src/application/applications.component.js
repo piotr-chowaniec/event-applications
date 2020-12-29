@@ -59,8 +59,8 @@ const Applications = () => {
     fetchApplication();
   }, [fetchApplication]);
 
-  const onApplicationRemove = useCallback(id => async () => {
-    await deleteApplication({ id });
+  const onApplicationRemove = useCallback(applicationId => async () => {
+    await deleteApplication({ applicationId });
     await fetchApplication();
   }, [deleteApplication, fetchApplication]);
 
