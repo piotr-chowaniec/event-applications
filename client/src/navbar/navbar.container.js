@@ -8,7 +8,7 @@ import routes from '../routes';
 import { setUserData } from '../store/user/actions';
 import { isAuthenticatedSelector, isAdminSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { addSuccessNotification } from '../store/notifications/actions';
-import { useLogin, useFetchUserData } from '../store/hooks';
+import { useLogin, useFetchProfileData } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
 
 import NavbarLogin from './navbarLogin.component';
@@ -24,13 +24,13 @@ const MenuNavbar = ({
   addSuccessNotification,
 }) => {
   const { call: loginUser } = useLogin();
-  const { call: fetchUserData } = useFetchUserData();
+  const { call: fetchProfileData } = useFetchProfileData();
 
   const handleUserLogin = useCallback(async values => {
     await loginUser(values);
-    const userData = await fetchUserData();
+    const userData = await fetchProfileData();
     setUserData(userData);
-  }, [loginUser, fetchUserData, setUserData]);
+  }, [loginUser, fetchProfileData, setUserData]);
 
   const handleUserLogout = useCallback(() => {
     resetToken();
@@ -46,6 +46,9 @@ const MenuNavbar = ({
           <>
             <Nav.Item>
               <Link to={routes.APPLICATIONS.PATH} className="nav-link">Event Applications List</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to={routes.USERS.PATH} className="nav-link">Users List</Link>
             </Nav.Item>
             <Nav.Item>
               <Link to={routes.APPLICATION.PATH} className="nav-link">Your Application</Link>

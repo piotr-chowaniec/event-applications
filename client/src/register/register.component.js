@@ -7,7 +7,7 @@ import { userSchemas } from '@common-packages/validators';
 import routes from '../routes';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
 import { setUserData } from '../store/user/actions';
-import { useRegister, useFetchUserData } from '../store/hooks';
+import { useRegister, useFetchProfileData } from '../store/hooks';
 
 import RegisterForm from './registerForm.component';
 
@@ -22,14 +22,14 @@ const newAccount = {
 const Register = ({ history }) => {
   const dispatch = useDispatch();
   const { call: registerUser } = useRegister();
-  const { call: fetchUserData } = useFetchUserData();
+  const { call: fetchProfileData } = useFetchProfileData();
 
   const submitRegisterForm = useCallback(async values => {
     await registerUser(values);
-    const userData = await fetchUserData();
+    const userData = await fetchProfileData();
     dispatch(setUserData(userData));
     history.push(routes.MAIN.PATH);
-  }, [registerUser, fetchUserData, dispatch, history]);
+  }, [registerUser, fetchProfileData, dispatch, history]);
 
   return (
     <div id="page-content" className="container">

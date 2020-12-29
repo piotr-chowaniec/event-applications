@@ -26,6 +26,13 @@ const routes = {
   APPLICATIONS: {
     PATH: '/applications',
   },
+  USER_EDIT: {
+    PATH: '/user/:userId',
+    compileRoute: compile('/user/:userId'),
+  },
+  USERS: {
+    PATH: '/users',
+  },
 };
 
 const userRoutes = {

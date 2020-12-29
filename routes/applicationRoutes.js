@@ -66,8 +66,8 @@ const applicationRoutes = ({ router }) => {
 
   router.get('/all', async (req, res, next) => {
     try {
-      const application = await getAllApplication();
-      res.send(application || {});
+      const applications = await getAllApplication();
+      res.send(applications || {});
     } catch (error) {
       next(error);
     }

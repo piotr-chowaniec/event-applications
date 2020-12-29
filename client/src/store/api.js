@@ -18,9 +18,19 @@ export const registerUser = (requestParams = {}) => body => httpPost({
   body,
 });
 
-export const fetchUserData = (requestParams = {}) => () => httpGetAndParse({
+export const fetchProfileData = (requestParams = {}) => () => httpGetAndParse({
   ...requestParams,
   route: '/api/user',
+});
+
+export const fetchUserData = (requestParams = {}) => ({ userId }) => httpGetAndParse({
+  ...requestParams,
+  route: `/api/user/${userId}`,
+});
+
+export const fetchAllUsers = (requestParams = {}) => () => httpGetAndParse({
+  ...requestParams,
+  route: '/api/user/all',
 });
 
 export const updateProfile = (requestParams = {}) => body => httpPut({
@@ -29,9 +39,20 @@ export const updateProfile = (requestParams = {}) => body => httpPut({
   body,
 });
 
+export const updateUser = (requestParams = {}) => ({ userId, ...body }) => httpPut({
+  ...requestParams,
+  route: `/api/user/${userId}`,
+  body,
+});
+
 export const deleteProfile = (requestParams = {}) => () => httpDelete({
   ...requestParams,
   route: '/api/user',
+});
+
+export const deleteUser = (requestParams = {}) => ({ userId }) => httpDelete({
+  ...requestParams,
+  route: `/api/user/${userId}`,
 });
 
 export const updatePassword = (requestParams = {}) => body => httpPut({

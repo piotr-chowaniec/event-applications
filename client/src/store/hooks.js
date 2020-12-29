@@ -19,6 +19,11 @@ export const useLogin = () => apiActionFactory({
   parseResponseErrorMessage: true,
 });
 
+export const useFetchProfileData = () => apiActionFactory({
+  apiAction: api.fetchProfileData,
+  errorMessage: 'Fetching user data failed',
+});
+
 export const useFetchUserData = () => apiActionFactory({
   apiAction: api.fetchUserData,
   errorMessage: 'Fetching user data failed',
@@ -31,10 +36,23 @@ export const useUpdateProfile = () => apiActionFactory({
   parseResponseErrorMessage: true,
 });
 
+export const useUpdateUser = () => apiActionFactory({
+  apiAction: api.updateUser,
+  successMessage: 'User updated',
+  errorMessage: 'Updating user data failed',
+  parseResponseErrorMessage: true,
+});
+
 export const useDeleteProfile = () => apiActionFactory({
   apiAction: api.deleteProfile,
   successMessage: 'Profile removed',
   errorMessage: 'Removing profile failed',
+});
+
+export const useDeleteUser = () => apiActionFactory({
+  apiAction: api.deleteUser,
+  successMessage: 'User removed',
+  errorMessage: 'Removing user failed',
 });
 
 export const useUpdatePassword = () => apiActionFactory({
@@ -45,15 +63,15 @@ export const useUpdatePassword = () => apiActionFactory({
 
 export const FetchUserData = async () => {
   const dispatch = useDispatch();
-  const { call: fetchUserData } = useFetchUserData();
+  const { call: fetchProfileData } = useFetchProfileData();
 
   const getUserData = useCallback(async () => {
     const token = extractToken();
     if (token) {
-      const userData = await fetchUserData();
+      const userData = await fetchProfileData();
       dispatch(setUserData(userData));
     }
-  }, [dispatch, fetchUserData]);
+  }, [dispatch, fetchProfileData]);
 
   useEffect(() => {
     getUserData();
@@ -100,4 +118,7 @@ export const useDeleteApplication = () => apiActionFactory({
   errorMessage: 'Removing Event Application failed',
 });
 
-
+export const useFetchAllUsers = () => apiActionFactory({
+  apiAction: api.fetchAllUsers,
+  errorMessage: 'Fetching users failed',
+});

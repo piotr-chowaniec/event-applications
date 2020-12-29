@@ -16,6 +16,8 @@ import PasswordChange from './profile/passwordChange';
 import Application from './application/application.component';
 import Applications from './application/applications.component';
 import ApplicationEdit from './application/applicationEdit.component';
+import Users from './users/users.component';
+import UserEdit from './users/userEdit.component';
 import routes from './routes';
 import './style/styles.scss';
 
@@ -40,6 +42,8 @@ const EventApplications = ({ history }) => {
             <Route exact path={routes.APPLICATION.PATH} component={Application}/>
             <Route exact path={routes.APPLICATIONS.PATH} component={Applications}/>
             <Route exact path={routes.APPLICATION_EDIT.PATH} component={ApplicationEdit}/>
+            <Route exact path={routes.USERS.PATH} component={Users}/>
+            <Route exact path={routes.USER_EDIT.PATH} component={UserEdit}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>

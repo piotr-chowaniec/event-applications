@@ -64,6 +64,7 @@ module.exports = {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'cascade',
       },
       eventDate: {
         type: Sequelize.DATE,

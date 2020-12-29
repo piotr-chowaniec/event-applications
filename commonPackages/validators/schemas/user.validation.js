@@ -18,10 +18,16 @@ const updatePasswordSchema = Yup.object().shape({
 });
 
 const registerUserSchema = updateProfileSchema.concat(updatePasswordSchema);
+const updateUserSchema = updateProfileSchema.concat(
+  Yup.object().shape({
+    role: Yup.string().label('Role').required().oneOf(['admin', 'participant']),
+  })
+);
 
 module.exports = {
   loginUserSchema,
   registerUserSchema,
   updateProfileSchema,
   updatePasswordSchema,
+  updateUserSchema,
 };

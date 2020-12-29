@@ -9,7 +9,7 @@ import { userSchemas } from '@common-packages/validators';
 import routes from '../routes';
 import { setUserData } from '../store/user/actions';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
-import { useFetchUserData, useUpdateProfile, useDeleteProfile } from '../store/hooks';
+import { useFetchProfileData, useUpdateProfile, useDeleteProfile } from '../store/hooks';
 import { resetToken } from '../utils/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
 import Loading from '../displayComponents/loading.component';
@@ -77,14 +77,14 @@ const Profile = ({
   setUserData,
 }) => {
   const { Modal, showModal } = useModal();
-  const { call: fetchUserData, isLoading: isFetchUserLoading } = useFetchUserData();
+  const { call: fetchProfileData, isLoading: isFetchUserLoading } = useFetchProfileData();
   const { call: updateProfile, isLoading: isUpdateProfileLoading } = useUpdateProfile();
   const { call: deleteProfile, isLoading: isDeleteProfileLoading } = useDeleteProfile();
 
   const onFetchUserData = useCallback(async () => {
-    const userData = await fetchUserData();
+    const userData = await fetchProfileData();
     setUserData(userData);
-  }, [fetchUserData, setUserData]);
+  }, [fetchProfileData, setUserData]);
 
   useEffect(() => {
     onFetchUserData();

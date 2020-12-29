@@ -1,4 +1,4 @@
-const { User } = require('../sequelizeInstance');
+const { User, sequelize } = require('../sequelizeInstance');
 const { createToken } = require('../../auth/jwt.services');
 
 const getUserData = user => ({
@@ -9,6 +9,13 @@ const getUserData = user => ({
   lastName: user.get('lastName'),
 });
 
+const findUserById = async id =>
+  await User.findOne({
+    where: {
+      id,
+    },
+  });
+
 const findUserByEmail = async email =>
   await User.findOne({
     where: {
@@ -17,15 +24,26 @@ const findUserByEmail = async email =>
   });
 
 const getAllUsers = async () =>
-  await User.findAll({
-    order: [['lastName', 'ASC']],
-  });
+  await sequelize.query(`
+    SELECT
+      uss.id,
+      uss.email,
+      uss.firstName,
+      uss.lastName,
+      uss.role,
+      app.eventDate
+    FROM users uss
+    LEFT JOIN applications app ON app.userId = uss.id
+
+  `,
+  { type: sequelize.QueryTypes.SELECT }
+  );
 
 
-const updateUserProfile = async (currentUser, updatedFields) => {
+const updateUserProfile = async (id, updatedFields) => {
   const user = await User.findOne({
     where: {
-      id: currentUser.id,
+      id,
     },
   });
 
@@ -33,6 +51,7 @@ const updateUserProfile = async (currentUser, updatedFields) => {
     'firstName',
     'lastName',
     'email',
+    'role',
   ];
 
   updatableFields.forEach(field => {
@@ -56,10 +75,10 @@ const updateUserPassword = async (currentUser, newPassword) => {
   await user.save();
 };
 
-const deleteProfile = async currentUser => {
+const deleteProfile = async id => {
   const user = await User.findOne({
     where: {
-      id: currentUser.id,
+      id,
     },
   });
 
@@ -81,6 +100,7 @@ const loginUser = async ({ email, password }) => {
 
 module.exports = {
   getUserData,
+  findUserById,
   findUserByEmail,
   getAllUsers,
   updateUserProfile,

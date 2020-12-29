@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
+import { getUserDisplayName } from '../../shared/utils';
+
 export const userDataSelector = ({ user }) => user.user;
 export const userDisplayNameSelector = createSelector(
   [
     userDataSelector,
   ],
-  user => user?.firstName
-    ? `${user?.firstName} ${user?.lastName}`
-    : '',
+  getUserDisplayName,
 );
 export const isAuthenticatedSelector = createSelector(
   [
