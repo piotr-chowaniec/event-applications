@@ -6,10 +6,11 @@ import { Button } from 'react-bootstrap';
 
 import routes from '../routes';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
-import { useDeleteUserApplication } from '../store/hooks';
 import { userPropTypes } from '../shared/propTypes';
-import useModal from '../shared/hooks/useModal';
+import useModal from '../shared/hooks/useModal.hook';
 import { transformToDate } from '../displayComponents/formatters';
+
+import { useDeleteApplication } from './api/hooks';
 
 const ModalBody = (
   <>
@@ -28,12 +29,12 @@ const ApplicationCurrent = ({
   userDisplayName,
 }) => {
   const { Modal, showModal } = useModal();
-  const { call: deleteApplication } = useDeleteUserApplication();
+  const { call: deleteApplication } = useDeleteApplication();
 
   const onApplicationRemove = useCallback(async () => {
-    await deleteApplication();
+    await deleteApplication({ applicationId: application?.id });
     await fetchApplication();
-  }, [deleteApplication, fetchApplication]);
+  }, [deleteApplication, fetchApplication, application]);
 
   return (
     <>

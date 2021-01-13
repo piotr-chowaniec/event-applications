@@ -25,46 +25,6 @@ const userRoutes = ({ router }) => {
     }
   });
 
-  router.put('/', async (req, res, next) => {
-    const { user } = res.locals;
-
-    try {
-      await updateUserProfile(user.id, req.body);
-      res.sendStatus(StatusCodes.NO_CONTENT);
-    } catch (error) {
-      error.message = isValidationError(error)
-        ? 'Sorry, that email is already in use'
-        : error.message;
-      next(error);
-    }
-  });
-
-  router.delete('/', async (req, res, next) => {
-    const { user } = res.locals;
-
-    try {
-      await deleteProfile(user.id);
-      res.removeHeader(authentication.accessTokenKey);
-      res.sendStatus(StatusCodes.NO_CONTENT);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.put('/password', async (req, res, next) => {
-    const { user } = res.locals;
-    const { password } = req.body;
-
-    try {
-      await updateUserPassword(user, password);
-      const token = await loginUser({ email: user.email, password });
-      res.header(authentication.accessTokenKey, token);
-      res.sendStatus(StatusCodes.NO_CONTENT);
-    } catch (error) {
-      next(error);
-    }
-  });
-
   router.get('/all', async (req, res, next) => {
     try {
       const users = await getAllUsers();
@@ -99,11 +59,28 @@ const userRoutes = ({ router }) => {
     }
   });
 
+  router.put('/:userId/password', async (req, res, next) => {
+    const { user } = res.locals;
+    const { userId } = req.params;
+    const { password } = req.body;
+
+    try {
+      await updateUserPassword(userId, password);
+      const token = await loginUser({ email: user.email, password });
+      res.header(authentication.accessTokenKey, token);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.delete('/:userId', async (req, res, next) => {
+    const { user } = res.locals;
     const { userId } = req.params;
 
     try {
       await deleteProfile(userId);
+      user.id === userId && res.removeHeader(authentication.accessTokenKey);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
       next(error);

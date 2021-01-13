@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 import routes from '../routes';
-import { useFetchAllApplications, useDeleteApplication } from '../store/hooks';
 import { transformToDate } from '../displayComponents/formatters';
+
+import { useFetchAllApplications, useDeleteApplication } from './api/hooks';
 
 const ApplicationItem = ({ application, onDelete }) => (
   <tr>

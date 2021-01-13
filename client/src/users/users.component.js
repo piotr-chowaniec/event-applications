@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
 
-import { useFetchAllUsers, useDeleteUser } from '../store/hooks';
+import { useDeleteUser } from '../shared/api/hooks';
 
 import UserItem from './userItem.container';
+import { useFetchAllUsers } from './api/hooks';
 
 const Users = () => {
   const { call: fetchUsers, status: { data: users } } = useFetchAllUsers();

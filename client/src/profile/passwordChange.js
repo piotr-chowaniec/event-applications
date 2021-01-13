@@ -7,9 +7,11 @@ import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
 import routes from '../routes';
-import { userDisplayNameSelector } from '../store/user/selectors';
-import { useUpdatePassword } from '../store/hooks';
+import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
+import { userPropTypes } from '../shared/propTypes';
 import InputGroup from '../displayComponents/forms/inputGroupFormik';
+
+import { useUpdatePassword } from './api/hooks';
 
 const initialPassword = {
   password: '',
@@ -51,14 +53,16 @@ PasswordChangeForm.propTypes = {
 
 const PasswordChange = ({
   history,
+
+  user,
   userDisplayName,
 }) => {
   const { call: updatePassword } = useUpdatePassword();
 
   const onPasswordUpdate = useCallback(async values => {
-    await updatePassword(values);
+    await updatePassword({ ...values, userId: user.id });
     history.push(routes.PROFILE.PATH);
-  }, [updatePassword, history]);
+  }, [updatePassword, history, user.id]);
 
   return (
     <div id="page-content" className="container">
@@ -97,11 +101,14 @@ PasswordChange.propTypes = ({
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }),
+
+  user: userPropTypes,
   userDisplayName: PropTypes.string.isRequired,
 });
 
 export default connect(
   state => ({
+    user: userDataSelector(state),
     userDisplayName: userDisplayNameSelector(state),
   }),
   null,

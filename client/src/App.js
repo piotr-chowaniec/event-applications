@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { Switch, Route } from 'react-router-dom';
 
-import { FetchUserData } from './store/hooks';
 import Navbar from './navbar/navbar.container';
 import Notifications from './displayComponents/notifications';
 import AccessDenied from './accessDenied.component';
@@ -18,6 +17,7 @@ import Applications from './application/applications.component';
 import ApplicationEdit from './application/applicationEdit.component';
 import Users from './users/users.component';
 import UserEdit from './users/userEdit.component';
+import fetchUserData from './shared/hooks/fetchUserData.hook';
 import routes from './routes';
 import './style/styles.scss';
 
@@ -26,7 +26,7 @@ const EventApplications = ({ history }) => {
     Modal.setAppElement('body');
   }, []);
 
-  FetchUserData();
+  fetchUserData();
 
   return (
     <div id="event-applications">

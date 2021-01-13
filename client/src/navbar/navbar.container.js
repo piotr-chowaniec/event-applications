@@ -8,11 +8,12 @@ import routes from '../routes';
 import { setUserData } from '../store/user/actions';
 import { isAuthenticatedSelector, isAdminSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { addSuccessNotification } from '../store/notifications/actions';
-import { useLogin, useFetchProfileData } from '../store/hooks';
-import { resetToken } from '../utils/fetchService/tokenUtils';
+import { useFetchProfileData } from '../shared/api/hooks';
+import { resetToken } from '../services/fetchService/tokenUtils';
 
 import NavbarLogin from './navbarLogin.component';
 import NavbarAuthenticated from './navbarAuthenticated.component';
+import { useLogin } from './api/hooks';
 
 const MenuNavbar = ({
   history,

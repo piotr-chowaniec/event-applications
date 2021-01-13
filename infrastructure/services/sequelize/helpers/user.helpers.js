@@ -63,10 +63,10 @@ const updateUserProfile = async (id, updatedFields) => {
   await user.save();
 };
 
-const updateUserPassword = async (currentUser, newPassword) => {
+const updateUserPassword = async (id, newPassword) => {
   const user = await User.findOne({
     where: {
-      id: currentUser.id,
+      id,
     },
   });
 

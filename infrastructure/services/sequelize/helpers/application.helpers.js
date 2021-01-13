@@ -34,17 +34,6 @@ const updateApplication = async (id, newEventDate) => {
   await application.save();
 };
 
-const deleteUserApplication = async currentUser => {
-  const application = await Application.findOne({
-    where: {
-      userId: currentUser.id,
-    },
-  });
-
-  await application.destroy();
-};
-
-
 const deleteApplication = async id => {
   const application = await Application.findOne({
     where: {
@@ -60,6 +49,5 @@ module.exports = {
   getApplication,
   getAllApplication,
   updateApplication,
-  deleteUserApplication,
   deleteApplication,
 };

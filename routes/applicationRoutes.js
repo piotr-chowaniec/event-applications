@@ -5,7 +5,6 @@ const {
   getUserApplication,
   getApplication,
   getAllApplication,
-  deleteUserApplication,
   deleteApplication,
   updateApplication,
 } = require('../infrastructure/services/sequelize/helpers/application.helpers');
@@ -37,17 +36,6 @@ const applicationRoutes = ({ router }) => {
       error.message = isValidationError(error)
         ? `Sorry, you're already registered to event`
         : error.message;
-      next(error);
-    }
-  });
-
-  router.delete('/', async (req, res, next) => {
-    const { user } = res.locals;
-
-    try {
-      await deleteUserApplication(user);
-      res.sendStatus(StatusCodes.NO_CONTENT);
-    } catch (error) {
       next(error);
     }
   });

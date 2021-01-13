@@ -7,9 +7,10 @@ import { userSchemas } from '@common-packages/validators';
 import routes from '../routes';
 import FaIcon from '../displayComponents/faIcon/faIcon.component';
 import { setUserData } from '../store/user/actions';
-import { useRegister, useFetchProfileData } from '../store/hooks';
+import { useFetchProfileData } from '../shared/api/hooks';
 
 import RegisterForm from './registerForm.component';
+import { useRegister } from './api/hooks';
 
 const newAccount = {
   firstName: '',

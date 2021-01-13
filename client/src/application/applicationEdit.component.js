@@ -4,10 +4,10 @@ import { Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { applicationSchema } from '@common-packages/validators';
 
-import { useFetchApplication, useUpdateApplication } from '../store/hooks';
 import { transformToDate } from '../displayComponents/formatters';
 
 import ApplicationForm from './applicationForm.component';
+import { useFetchApplication, useUpdateApplication } from './api/hooks';
 
 const ApplicationEdit = ({
   history,

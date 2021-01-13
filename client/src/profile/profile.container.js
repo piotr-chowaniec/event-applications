@@ -9,12 +9,12 @@ import { userSchemas } from '@common-packages/validators';
 import routes from '../routes';
 import { setUserData } from '../store/user/actions';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
-import { useFetchProfileData, useUpdateProfile, useDeleteProfile } from '../store/hooks';
-import { resetToken } from '../utils/fetchService/tokenUtils';
+import { useFetchProfileData, useUpdateUser, useDeleteUser } from '../shared/api/hooks';
+import { resetToken } from '../services/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
 import Loading from '../displayComponents/loading.component';
 import Input from '../displayComponents/forms/inputFormik';
-import useModal from '../shared/hooks/useModal';
+import useModal from '../shared/hooks/useModal.hook';
 
 const initialUser = {
   firstName: '',
@@ -78,8 +78,8 @@ const Profile = ({
 }) => {
   const { Modal, showModal } = useModal();
   const { call: fetchProfileData, isLoading: isFetchUserLoading } = useFetchProfileData();
-  const { call: updateProfile, isLoading: isUpdateProfileLoading } = useUpdateProfile();
-  const { call: deleteProfile, isLoading: isDeleteProfileLoading } = useDeleteProfile();
+  const { call: updateUser, isLoading: isUpdateProfileLoading } = useUpdateUser();
+  const { call: deleteUser, isLoading: isDeleteProfileLoading } = useDeleteUser();
 
   const onFetchUserData = useCallback(async () => {
     const userData = await fetchProfileData();
@@ -91,16 +91,16 @@ const Profile = ({
   }, [onFetchUserData]);
 
   const onUserUpdate = useCallback(async values => {
-    await updateProfile(values);
+    await updateUser({ ...values, userId: user.id });
     await onFetchUserData();
-  }, [updateProfile, onFetchUserData]);
+  }, [updateUser, onFetchUserData, user.id]);
 
   const onProfileRemove = useCallback(async () => {
-    await deleteProfile();
+    await deleteUser({ userId: user.id });
     resetToken();
     setUserData();
     history.push(routes.MAIN.PATH);
-  }, [deleteProfile, setUserData, history]);
+  }, [deleteUser, setUserData, history, user.id]);
 
   const isLoading = isFetchUserLoading || isUpdateProfileLoading || isDeleteProfileLoading;
   const loadingMessage = useMemo(() => {

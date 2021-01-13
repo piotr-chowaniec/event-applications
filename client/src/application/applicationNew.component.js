@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { applicationSchema } from '@common-packages/validators';
 
-import { useCreateApplication } from '../store/hooks';
-
 import ApplicationForm from './applicationForm.component';
+import { useCreateApplication } from './api/hooks';
 
 const newApplication = {
   eventDate: '',

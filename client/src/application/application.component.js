@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { useFetchUserApplication } from '../store/hooks';
-
 import ApplicationNew from './applicationNew.component';
 import ApplicationCurrent from './applicationCurrent.container';
+import { useFetchUserApplication } from './api/hooks';
 
 const Application = () => {
   const { call: fetchApplication, status: { data: application } } = useFetchUserApplication();

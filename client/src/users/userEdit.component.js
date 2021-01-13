@@ -4,13 +4,14 @@ import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
-import { useFetchUserData, useUpdateUser, useDeleteUser } from '../store/hooks';
 import Input from '../displayComponents/forms/inputFormik';
 import Select from '../displayComponents/forms/selectFormik';
-import useModal from '../shared/hooks/useModal';
 import { getUserDisplayName } from '../shared/utils';
+import { useUpdateUser, useDeleteUser } from '../shared/api/hooks';
+import useModal from '../shared/hooks/useModal.hook';
 
 import { userRolesOptions } from './constants';
+import { useFetchUserData } from './api/hooks';
 
 const initialUser = {
   firstName: '',

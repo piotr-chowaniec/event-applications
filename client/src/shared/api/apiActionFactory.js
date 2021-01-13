@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 
-import { addSuccessNotification, addErrorNotification } from './notifications/actions';
+import { addSuccessNotification, addErrorNotification } from '../../store/notifications/actions';
 
 const ApiActionFactory = ({
   apiAction,
