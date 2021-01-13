@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
-import Input from '../displayComponents/forms/inputFormik';
-import Select from '../displayComponents/forms/selectFormik';
 import { getUserDisplayName } from '../shared/utils';
 import { useUpdateUser, useDeleteUser } from '../shared/api/hooks';
 import useModal from '../shared/hooks/useModal.hook';
 
-import { userRolesOptions } from './constants';
+import UserEditForm from './userEditForm.component';
 import { useFetchUserData } from './api/hooks';
 
 const initialUser = {
@@ -28,49 +26,6 @@ const ModalBody = (
     </p>
   </>
 );
-
-const UserEditForm = ({
-  dirty,
-}) => (
-  <Form>
-    <Field
-      label="First name"
-      name="firstName"
-      placeholder="First Name"
-      component={Input}
-    />
-    <Field
-      label="Last name"
-      name="lastName"
-      placeholder="Last Name"
-      component={Input}
-    />
-    <Field
-      label="Email"
-      name="email"
-      placeholder="Email"
-      component={Input}
-    />
-    <Field
-      label="Role"
-      name="role"
-      component={Select}
-      options={userRolesOptions}
-    />
-    <Button
-      type="submit"
-      block
-      variant="outline-success"
-      disabled={!dirty}
-    >
-      Submit
-    </Button>
-  </Form>
-);
-
-UserEditForm.propTypes = {
-  dirty: PropTypes.bool.isRequired,
-};
 
 const UserEdit = ({
   history,

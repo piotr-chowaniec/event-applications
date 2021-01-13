@@ -11,7 +11,7 @@ import AccessDenied from './accessDenied.component';
 import WelcomePage from './welcomePage.component';
 import Register from './register/register.component';
 import Profile from './profile/profile.container';
-import PasswordChange from './profile/passwordChange';
+import PasswordChange from './profile/passwordChange.container';
 import Application from './application/application.component';
 import Applications from './application/applications.component';
 import ApplicationEdit from './application/applicationEdit.component';

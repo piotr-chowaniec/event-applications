@@ -1,48 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
-import { NavDropdown, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import { NavDropdown } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
 import routes from '../routes';
-import Input from '../displayComponents/forms/inputFormik';
+
+import NavbarLoginForm from './navbarLoginForm.component';
 
 const login = {
   email: '',
   password: '',
-};
-
-const LoginForm = ({
-  dirty,
-}) => (
-  <Form>
-    <Field
-      label="Email"
-      name="email"
-      placeholder="Email"
-      component={Input}
-    />
-    <Field
-      label="Password"
-      name="password"
-      type="password"
-      placeholder="Password"
-      component={Input}
-    />
-    <Button
-      type="submit"
-      block
-      variant="primary"
-      disabled={!dirty}
-    >
-      Login
-    </Button>
-  </Form>
-);
-
-LoginForm.propTypes = {
-  dirty: PropTypes.bool.isRequired,
 };
 
 const NavbarLogin = ({ handleUserLogin }) => (
@@ -55,7 +24,7 @@ const NavbarLogin = ({ handleUserLogin }) => (
       <Formik
         initialValues={login}
         validationSchema={userSchemas.loginUserSchema}
-        component={LoginForm}
+        component={NavbarLoginForm}
         onSubmit={handleUserLogin}
       />
     </div>

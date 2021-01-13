@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
@@ -13,8 +13,9 @@ import { useFetchProfileData, useUpdateUser, useDeleteUser } from '../shared/api
 import { resetToken } from '../services/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
 import Loading from '../displayComponents/loading.component';
-import Input from '../displayComponents/forms/inputFormik';
 import useModal from '../shared/hooks/useModal.hook';
+
+import ProfileForm from './profileForm.component';
 
 const initialUser = {
   firstName: '',
@@ -31,43 +32,6 @@ const ModalBody = (
     </p>
   </>
 );
-
-const ProfileForm = ({
-  dirty,
-}) => (
-  <Form>
-    <Field
-      label="First name"
-      name="firstName"
-      placeholder="First Name"
-      component={Input}
-    />
-    <Field
-      label="Last name"
-      name="lastName"
-      placeholder="Last Name"
-      component={Input}
-    />
-    <Field
-      label="Email"
-      name="email"
-      placeholder="Email"
-      component={Input}
-    />
-    <Button
-      type="submit"
-      block
-      variant="outline-success"
-      disabled={!dirty}
-    >
-      Submit
-    </Button>
-  </Form>
-);
-
-ProfileForm.propTypes = {
-  dirty: PropTypes.bool.isRequired,
-};
 
 const Profile = ({
   history,

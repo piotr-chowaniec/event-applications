@@ -1,54 +1,20 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import { userSchemas } from '@common-packages/validators';
 
 import routes from '../routes';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { userPropTypes } from '../shared/propTypes';
-import InputGroup from '../displayComponents/forms/inputGroupFormik';
 
+import PasswordChangeForm from './passwordChangeForm.component';
 import { useUpdatePassword } from './api/hooks';
 
 const initialPassword = {
   password: '',
   confirmPassword: '',
-};
-
-const PasswordChangeForm = ({
-  dirty,
-}) => (
-  <Form>
-    <Field
-      name="password"
-      type="password"
-      placeholder="Password"
-      icon={{ iconName: 'lock' }}
-      component={InputGroup}
-    />
-    <Field
-      name="confirmPassword"
-      type="password"
-      placeholder="Confirm Password"
-      icon={{ iconName: 'lock' }}
-      component={InputGroup}
-    />
-    <Button
-      type="submit"
-      block
-      variant="outline-success"
-      disabled={!dirty}
-    >
-      Change Password
-    </Button>
-  </Form>
-);
-
-PasswordChangeForm.propTypes = {
-  dirty: PropTypes.bool.isRequired,
 };
 
 const PasswordChange = ({
