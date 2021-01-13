@@ -7,7 +7,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import Navbar from './navbar/navbar.container';
 import Notifications from './displayComponents/notifications';
-import AccessDenied from './accessDenied.component';
 import WelcomePage from './welcomePage.component';
 import Register from './register/register.component';
 import Profile from './profile/profile.container';
@@ -17,6 +16,9 @@ import Applications from './application/applications.component';
 import ApplicationEdit from './application/applicationEdit.component';
 import Users from './users/users.component';
 import UserEdit from './users/userEdit.component';
+import AdminRoute from './shared/authorization/adminRoute';
+import AuthenticatedRoute from './shared/authorization/authenticatedRoute';
+import AccessDenied from './shared/authorization/accessDenied.component';
 import fetchUserData from './shared/hooks/fetchUserData.hook';
 import routes from './routes';
 import './style/styles.scss';
@@ -37,13 +39,13 @@ const EventApplications = ({ history }) => {
           <div id="overlay" />
           <Switch >
             <Route exact path={routes.REGISTER.PATH} component={Register}/>
-            <Route exact path={routes.PROFILE.PATH} component={Profile}/>
-            <Route exact path={routes.PASSWORD.PATH} component={PasswordChange}/>
-            <Route exact path={routes.APPLICATION.PATH} component={Application}/>
-            <Route exact path={routes.APPLICATIONS.PATH} component={Applications}/>
-            <Route exact path={routes.APPLICATION_EDIT.PATH} component={ApplicationEdit}/>
-            <Route exact path={routes.USERS.PATH} component={Users}/>
-            <Route exact path={routes.USER_EDIT.PATH} component={UserEdit}/>
+            <AuthenticatedRoute exact path={routes.PROFILE.PATH} component={Profile}/>
+            <AuthenticatedRoute exact path={routes.PASSWORD.PATH} component={PasswordChange}/>
+            <AuthenticatedRoute exact path={routes.APPLICATION.PATH} component={Application}/>
+            <AuthenticatedRoute exact path={routes.APPLICATION_EDIT.PATH} component={ApplicationEdit}/>
+            <AdminRoute exact path={routes.APPLICATIONS.PATH} component={Applications}/>
+            <AdminRoute exact path={routes.USERS.PATH} component={Users}/>
+            <AdminRoute exact path={routes.USER_EDIT.PATH} component={UserEdit}/>
             <Route component={WelcomePage} />
           </Switch>
         </div>

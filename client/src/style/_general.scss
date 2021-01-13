@@ -17,11 +17,8 @@ body {
   background: url($background-photo-url) bottom center/cover no-repeat;
 }
 
+#page-content,
 #access-denied {
-  height: 100vh;
-}
-
-#page-content {
   z-index: 2;
 }
 

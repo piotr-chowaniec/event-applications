@@ -5,8 +5,7 @@ import { Button } from 'react-bootstrap';
 
 import Input from '../displayComponents/forms/inputFormik';
 import Select from '../displayComponents/forms/selectFormik';
-
-import { userRolesOptions } from './constants';
+import { userRolesOptions } from '../shared/constants';
 
 const UserEditForm = ({
   dirty,
