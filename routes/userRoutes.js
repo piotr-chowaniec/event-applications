@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+const { userSchemas } = require('@common-packages/validators');
 
 const { authentication } = require('../config');
 const {
@@ -11,6 +12,7 @@ const {
   updateUserPassword,
   deleteProfile,
 } = require('../infrastructure/services/sequelize/helpers/user.helpers');
+const validate = require('../infrastructure/validate');
 const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
 
 const userRoutes = ({ router }) => {
@@ -49,6 +51,7 @@ const userRoutes = ({ router }) => {
     const { userId } = req.params;
 
     try {
+      await validate(req.body, userSchemas.updateProfileSchema);
       await updateUserProfile(userId, req.body);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
@@ -65,6 +68,7 @@ const userRoutes = ({ router }) => {
     const { password } = req.body;
 
     try {
+      await validate(req.body, userSchemas.updatePasswordSchema);
       await updateUserPassword(userId, password);
       const token = await loginUser({ email: user.email, password });
       res.header(authentication.accessTokenKey, token);

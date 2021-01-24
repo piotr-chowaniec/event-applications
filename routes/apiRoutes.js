@@ -1,11 +1,13 @@
 const express = require('express');
 const passport = require('passport');
 const { StatusCodes } = require('http-status-codes');
+const { userSchemas } = require('@common-packages/validators');
 
 const checkAuthToken = require('../infrastructure/middlewares/checkAuthToken');
 const { User } = require('../infrastructure/services/sequelize/sequelizeInstance');
 const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
 const { loginUser } = require('../infrastructure/services/sequelize/helpers/user.helpers');
+const validate = require('../infrastructure/validate');
 const { authentication } = require('../config');
 
 const router = express.Router();
@@ -18,6 +20,7 @@ router.post('/register', async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
+    await validate(req.body, userSchemas.registerUserSchema);
     await User.create({
       firstName,
       lastName,
@@ -38,6 +41,7 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
   try {
+    await validate(req.body, userSchemas.loginUserSchema);
     const token = await loginUser({ email, password });
     res.header(authentication.accessTokenKey, token);
     res.send({ message: 'Successfully logged in' });

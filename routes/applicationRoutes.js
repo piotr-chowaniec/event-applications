@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+const { applicationSchema } = require('@common-packages/validators');
 
 const { Application } = require('../infrastructure/services/sequelize/sequelizeInstance');
 const {
@@ -8,6 +9,7 @@ const {
   deleteApplication,
   updateApplication,
 } = require('../infrastructure/services/sequelize/helpers/application.helpers');
+const validate = require('../infrastructure/validate');
 const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
 
 const applicationRoutes = ({ router }) => {
@@ -27,6 +29,7 @@ const applicationRoutes = ({ router }) => {
     const { eventDate } = req.body;
 
     try {
+      await validate(req.body, applicationSchema);
       await Application.create({
         eventDate,
         userId: user.id,
@@ -65,6 +68,7 @@ const applicationRoutes = ({ router }) => {
     const { eventDate } = req.body;
 
     try {
+      await validate(req.body, applicationSchema);
       await updateApplication(applicationId, eventDate);
       res.sendStatus(StatusCodes.NO_CONTENT);
     } catch (error) {
