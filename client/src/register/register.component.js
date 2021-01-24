@@ -29,7 +29,7 @@ const Register = ({ history }) => {
     await registerUser(values);
     const userData = await fetchProfileData();
     dispatch(setUserData(userData));
-    history.push(routes.MAIN.PATH);
+    history.push(routes.APPLICATION.PATH);
   }, [registerUser, fetchProfileData, dispatch, history]);
 
   return (

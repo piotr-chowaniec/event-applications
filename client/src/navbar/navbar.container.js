@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import routes from '../routes';
@@ -16,14 +16,13 @@ import NavbarAuthenticated from './navbarAuthenticated.component';
 import { useLogin } from './api/hooks';
 
 const MenuNavbar = ({
-  history,
-
   isAuthenticated,
   isAdmin,
   userDisplayName,
   setUserData,
   addSuccessNotification,
 }) => {
+  const history = useHistory();
   const { call: loginUser } = useLogin();
   const { call: fetchProfileData } = useFetchProfileData();
 
@@ -31,7 +30,8 @@ const MenuNavbar = ({
     await loginUser(values);
     const userData = await fetchProfileData();
     setUserData(userData);
-  }, [loginUser, fetchProfileData, setUserData]);
+    history.push(routes.APPLICATION.PATH);
+  }, [loginUser, fetchProfileData, setUserData, history]);
 
   const handleUserLogout = useCallback(() => {
     resetToken();
@@ -101,10 +101,6 @@ const MenuNavbar = ({
 };
 
 MenuNavbar.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
-
   isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   userDisplayName: PropTypes.string.isRequired,

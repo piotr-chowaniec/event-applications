@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { Switch, Route } from 'react-router-dom';
 
@@ -23,7 +22,7 @@ import fetchUserData from './shared/hooks/fetchUserData.hook';
 import routes from './routes';
 import './style/styles.scss';
 
-const EventApplications = ({ history }) => {
+const EventApplications = () => {
   useEffect(() => {
     Modal.setAppElement('body');
   }, []);
@@ -32,7 +31,7 @@ const EventApplications = ({ history }) => {
 
   return (
     <div id="event-applications">
-      <Navbar history={history}/>
+      <Navbar/>
       <section id="main-container">
         <Notifications />
         <div id="main-page" className="d-flex justify-content-center align-items-center">
@@ -52,12 +51,6 @@ const EventApplications = ({ history }) => {
       </section>
     </div>
   );
-};
-
-EventApplications.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
 };
 
 const App = () => (
