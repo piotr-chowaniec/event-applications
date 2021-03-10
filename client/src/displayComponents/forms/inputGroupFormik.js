@@ -66,8 +66,8 @@ InputGroupFormik.propTypes = {
     onChange: PropTypes.func.isRequired,
   }),
   form: PropTypes.shape({
-    touched: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
+    touched: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    errors: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   }),
   type: PropTypes.string,
   placeholder: PropTypes.string,

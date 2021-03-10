@@ -1,0 +1,97 @@
+const { StatusCodes } = require('http-status-codes');
+const { userSchemas } = require('@common-packages/validators');
+
+const { authentication } = require('../config');
+const {
+  loginUser,
+  getAllUsers,
+  getUserData,
+  findUserById,
+  findUserByEmail,
+  updateUserProfile,
+  updateUserPassword,
+  deleteProfile,
+} = require('../infrastructure/services/sequelize/helpers/user.helpers');
+const validate = require('../infrastructure/validate');
+const { isValidationError } = require('../infrastructure/services/sequelize/helpers/sequelize.helpers');
+
+const userRoutes = ({ router }) => {
+  router.get('/', async (req, res, next) => {
+    const { user } = res.locals;
+
+    try {
+      const userData = getUserData(await findUserByEmail(user.email));
+      res.send(userData);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/all', async (req, res, next) => {
+    try {
+      const users = await getAllUsers();
+      res.send(users || {});
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+      const userData = getUserData(await findUserById(userId));
+      res.send(userData);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.put('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+      await validate(req.body, userSchemas.updateProfileSchema);
+      await updateUserProfile(userId, req.body);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      error.message = isValidationError(error)
+        ? 'Sorry, that email is already in use'
+        : error.message;
+      next(error);
+    }
+  });
+
+  router.put('/:userId/password', async (req, res, next) => {
+    const { user } = res.locals;
+    const { userId } = req.params;
+    const { password } = req.body;
+
+    try {
+      await validate(req.body, userSchemas.updatePasswordSchema);
+      await updateUserPassword(userId, password);
+      const token = await loginUser({ email: user.email, password });
+      res.header(authentication.accessTokenKey, token);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.delete('/:userId', async (req, res, next) => {
+    const { user } = res.locals;
+    const { userId } = req.params;
+
+    try {
+      await deleteProfile(userId);
+      user.id === userId && res.removeHeader(authentication.accessTokenKey);
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  return router;
+};
+
+module.exports = userRoutes;

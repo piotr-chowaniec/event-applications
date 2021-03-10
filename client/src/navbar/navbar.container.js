@@ -1,0 +1,121 @@
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+
+import routes from '../routes';
+import { setUserData } from '../store/user/actions';
+import { isAuthenticatedSelector, isAdminSelector, userDisplayNameSelector } from '../store/user/selectors';
+import { addSuccessNotification } from '../store/notifications/actions';
+import { useFetchProfileData } from '../shared/api/hooks';
+import { resetToken } from '../services/fetchService/tokenUtils';
+
+import NavbarLogin from './navbarLogin.component';
+import NavbarAuthenticated from './navbarAuthenticated.component';
+import { useLogin } from './api/hooks';
+
+const MenuNavbar = ({
+  isAuthenticated,
+  isAdmin,
+  userDisplayName,
+  setUserData,
+  addSuccessNotification,
+}) => {
+  const history = useHistory();
+  const { call: loginUser } = useLogin();
+  const { call: fetchProfileData } = useFetchProfileData();
+
+  const handleUserLogin = useCallback(async values => {
+    await loginUser(values);
+    const userData = await fetchProfileData();
+    setUserData(userData);
+    history.push(routes.APPLICATION.PATH);
+  }, [loginUser, fetchProfileData, setUserData, history]);
+
+  const handleUserLogout = useCallback(() => {
+    resetToken();
+    setUserData();
+    addSuccessNotification('Successfully logged out');
+    history.push(routes.MAIN.PATH);
+  }, [setUserData, addSuccessNotification, history]);
+
+  const renderNavbarButtons = useCallback(() => {
+    if (isAuthenticated) {
+      if (isAdmin) {
+        return (
+          <>
+            <Nav.Item>
+              <Link to={routes.APPLICATIONS.PATH} className="nav-link">Event Applications List</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to={routes.USERS.PATH} className="nav-link">Users List</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to={routes.APPLICATION.PATH} className="nav-link">Your Application</Link>
+            </Nav.Item>
+          </>
+        );
+      }
+      return (
+        <Nav.Item>
+          <Link to={routes.APPLICATION.PATH} className="nav-link">Your Application</Link>
+        </Nav.Item>
+      );
+    }
+
+    return null;
+  }, [isAdmin, isAuthenticated]);
+
+
+  const renderUserDropdown = useCallback(() => (
+    isAuthenticated
+      ? <NavbarAuthenticated handleUserLogout={handleUserLogout} userDisplayName={userDisplayName}/>
+      : <NavbarLogin handleUserLogin={handleUserLogin}/>
+  ), [handleUserLogin, handleUserLogout, isAuthenticated, userDisplayName]);
+
+  return (
+    <Navbar bg="light" variant="light" expand="lg" fixed="top">
+      <Container>
+        <Link
+          to={routes.MAIN.PATH}
+          className="navbar-brand mr-5"
+        >
+          Event<strong>Application</strong>
+        </Link>
+        <Navbar.Toggle aria-controls="main-navbar" />
+        <Navbar.Collapse
+          id="main-navbar"
+          className="justify-content-between"
+        >
+          <Nav>
+            {renderNavbarButtons()}
+          </Nav>
+          <Nav>
+            {renderUserDropdown()}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
+
+MenuNavbar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  userDisplayName: PropTypes.string.isRequired,
+  setUserData: PropTypes.func.isRequired,
+  addSuccessNotification: PropTypes.func.isRequired,
+};
+
+export default connect(
+  state => ({
+    isAuthenticated: isAuthenticatedSelector(state),
+    isAdmin: isAdminSelector(state),
+    userDisplayName: userDisplayNameSelector(state),
+  }),
+  {
+    setUserData,
+    addSuccessNotification,
+  },
+)(MenuNavbar);

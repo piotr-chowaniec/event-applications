@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-const path = require('path');
-
 const program = require('commander');
 
 program
@@ -11,7 +9,6 @@ program
   .option('-d, --down', 'Stop the containers')
   .option('-l, --logs', 'Log the output of all containers')
   .option('-f, --follow', 'Log the output of all containers in watch mode')
-  .option('--file <file>', 'Specify the docker-compose file suffix to use (default: dev)', 'dev')
   .option(
     '--compose <path>',
     `override docker-compose process name you could have installed docker with snap on ubuntu and ended up with docker.compose instead of docker-compose`,
@@ -20,9 +17,8 @@ program
   .parse(process.argv);
 
 const getArgs = () => {
-  const projectDirectoryName = path.dirname(__filename).split(path.sep).pop();
-  const projectName = `${projectDirectoryName}${program.file}`;
-  const dockerFileNameParam = `-f docker-compose.yml -f docker-compose.${program.file}.yml -p ${projectName}`;
+  const projectName = `event-applications`;
+  const dockerFileNameParam = `-f docker-compose.yml -p ${projectName}`;
 
   if (program.pull) {
     return [dockerFileNameParam, 'pull'];
