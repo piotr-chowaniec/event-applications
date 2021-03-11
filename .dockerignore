@@ -5,6 +5,7 @@
 .gitignore
 .eslintignore
 .eslintrc
+.sequelizerc
 README.md
 
 coverage

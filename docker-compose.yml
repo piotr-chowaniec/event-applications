@@ -28,6 +28,3 @@ services:
       - MYSQL_PASSWORD=secretPassword123
       - MYSQL_ROOT_PASSWORD=rootPassword321
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
-
-volumes:
-  db_data:
