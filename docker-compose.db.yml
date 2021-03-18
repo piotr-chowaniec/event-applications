@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  event-applications:
+    command: npm run dev:seed
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    restart: on-failure
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD=rootPassword321
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+
+volumes:
+  db_data:

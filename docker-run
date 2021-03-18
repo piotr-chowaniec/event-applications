@@ -9,6 +9,7 @@ program
   .option('-d, --down', 'Stop the containers')
   .option('-l, --logs', 'Log the output of all containers')
   .option('-f, --follow', 'Log the output of all containers in watch mode')
+  .option('--file <file>', 'Specify the docker-compose file suffix to use (default: null)', null)
   .option(
     '--compose <path>',
     `override docker-compose process name you could have installed docker with snap on ubuntu and ended up with docker.compose instead of docker-compose`,
@@ -18,7 +19,7 @@ program
 
 const getArgs = () => {
   const projectName = `event-applications`;
-  const dockerFileNameParam = `-f docker-compose.yml -p ${projectName}`;
+  const dockerFileNameParam = `-f docker-compose.yml ${program.file ? `-f docker-compose.${program.file}.yml` : ''} -p ${projectName}`;
 
   if (program.pull) {
     return [dockerFileNameParam, 'pull'];
