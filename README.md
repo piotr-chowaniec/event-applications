@@ -1,4 +1,23 @@
-# Event applications
+# Event applications 📆
+
+## Demo
+
+You can access demo [here](https://eventapplications.herokuapp.com/)
+
+Once you've registered, you'll be able to pick event date that's convenient for you.
+It'll also allow you to manage your Profile, see/update already picked event date.
+
+There is also admin functionality that allow to manage all users and applications in the system. In order to log in as admin sue this credentials:
+
+```
+email: admin@admin.com
+password: secretPassword
+```
+
+🚨🚨🚨
+**It's a demo app so please be aware to use non-existing data such as email, first and last name, since everyone reading this readme would have access to it with admin credentials.**
+
+Feel free to play with it 🙏.
 
 ## Technologies used
 - [Node.js v14.16](https://nodejs.org) - Check allowed functionalities for this version of Node on [node.green](http://node.green/)
