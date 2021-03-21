@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import { applicationSchema } from '@common-packages/validators';
 
 import { transformToDate } from '../displayComponents/formatters';
+import Loading from '../displayComponents/loading/loading.component';
 
 import ApplicationForm from './applicationForm.component';
 import { useFetchApplication, useUpdateApplication } from './api/hooks';
@@ -14,8 +15,15 @@ const ApplicationEdit = ({
   match,
 }) => {
   const { applicationId } = match.params;
-  const { call: fetchApplication, status: { data: application } } = useFetchApplication();
-  const { call: updateApplication } = useUpdateApplication();
+  const {
+    call: fetchApplication,
+    isLoading: isFetchingApplication,
+    status: { data: application },
+  } = useFetchApplication();
+  const {
+    call: updateApplication,
+    isLoading: isUpdatingApplication,
+  } = useUpdateApplication();
 
   useEffect(() => {
     fetchApplication({ applicationId });
@@ -40,6 +48,7 @@ const ApplicationEdit = ({
       }
   ), [application]);
 
+  const isLoading = isFetchingApplication || isUpdatingApplication;
 
   return (
     <div id="page-content" className="container">
@@ -47,6 +56,7 @@ const ApplicationEdit = ({
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
+              <Loading isLoading={isLoading} />
               <h3 className="card-title my-3">Edit Event Application</h3>
               <div className="text-left">
                 {application?.id && <Formik

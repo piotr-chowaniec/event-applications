@@ -13,12 +13,14 @@
     "start": "node index.js | bunyan",
     "migrate": "sequelize-cli db:migrate",
     "seed": "sequelize-cli db:seed:all",
-    "server": "npm run migrate && npm run seed && nodemon --ignore 'client/*' index.js | bunyan",
+    "server": "npm run migrate && nodemon --ignore 'client/*' index.js | bunyan",
+    "server:seed": "npm run migrate && npm run seed && nodemon --ignore 'client/*' index.js | bunyan",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev:seed": "concurrently \"npm run server:seed\" \"npm run client\"",
     "install:all": "npm i && npm i --prefix client",
     "lint": "eslint .",
-    "pre-push:client": "cd client && CI=1 npm run lint",
+    "pre-push:client": "cd client && CI=1 npm run lint && npm run stylelint",
     "pre-push": "npm run lint && npm run pre-push:client"
   },
   "dependencies": {

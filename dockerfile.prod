@@ -1,7 +1,16 @@
-FROM node:12.18-alpine
+FROM node:14.15-alpine
 
-# copy in the app as uid/pgid node
-COPY --chown=node:node . .
+WORKDIR /app
+COPY . .
 
-# remove any devDependencies
-RUN npm prune --production
+RUN npm ci --production\
+    && cd ./client \
+    && npm ci --production \
+    && npm run build \
+    && rm -rf ./node_modules \
+    && rm -rf ./src
+
+ENV NODE_ENV=production
+EXPOSE 7000
+
+CMD ["npm", "start"]

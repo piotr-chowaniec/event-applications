@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
 
+import styles from './styles.module.scss';
+
 const Loading = ({
   isLoading = false,
   loadingMessage,
-  children,
 }) => {
-  if (isLoading) {
-    return (
+  if (!isLoading) {
+    return null;
+  }
+
+  return (
+    <div className={styles.loading}>
       <div className="text-center">
         <PulseLoader
           sizeUnit={'px'}
@@ -18,16 +23,13 @@ const Loading = ({
         />
         <div className="mt-4"><code className="text-muted">{loadingMessage}</code></div>
       </div>
-    );
-  }
-
-  return <>{children}</>;
+    </div>
+  );
 };
 
 Loading.propTypes = {
   isLoading: PropTypes.bool,
   loadingMessage: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
 };
 
 Loading.defaultProps = {
