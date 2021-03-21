@@ -7,6 +7,7 @@ import { userSchemas } from '@common-packages/validators';
 import { getUserDisplayName } from '../shared/utils';
 import { useUpdateUser, useDeleteUser } from '../shared/api/hooks';
 import useModal from '../shared/hooks/useModal.hook';
+import Loading from '../displayComponents/loading/loading.component';
 
 import UserEditForm from './userEditForm.component';
 import { useFetchUserData } from './api/hooks';
@@ -33,9 +34,19 @@ const UserEdit = ({
 }) => {
   const { userId } = match.params;
   const { Modal, showModal } = useModal();
-  const { call: fetchUserData, status: { data: user } } = useFetchUserData();
-  const { call: updateUser } = useUpdateUser();
-  const { call: deleteUser } = useDeleteUser();
+  const {
+    call: fetchUserData,
+    isLoading: isFetchingUserData,
+    status: { data: user },
+  } = useFetchUserData();
+  const {
+    call: updateUser,
+    isLoading: isUpdatingUser,
+  } = useUpdateUser();
+  const {
+    call: deleteUser,
+    isLoading: isDeletingUser,
+  } = useDeleteUser();
 
   const onFetchUserData = useCallback(async () => {
     fetchUserData({ userId });
@@ -59,12 +70,15 @@ const UserEdit = ({
     history.goBack();
   }, [history]);
 
+  const isLoading = isFetchingUserData || isUpdatingUser || isDeletingUser;
+
   return (
     <div id="page-content" className="container">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
+              <Loading isLoading={isLoading} />
               <h3 className="card-title my-3">
                 {getUserDisplayName(user)}
               </h3>

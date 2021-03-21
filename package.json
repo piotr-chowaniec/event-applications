@@ -20,7 +20,7 @@
     "dev:seed": "concurrently \"npm run server:seed\" \"npm run client\"",
     "install:all": "npm i && npm i --prefix client",
     "lint": "eslint .",
-    "pre-push:client": "cd client && CI=1 npm run lint",
+    "pre-push:client": "cd client && CI=1 npm run lint && npm run stylelint",
     "pre-push": "npm run lint && npm run pre-push:client"
   },
   "dependencies": {

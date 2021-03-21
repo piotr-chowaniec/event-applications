@@ -2,6 +2,7 @@
 $color-main-background: #f7f8f8;
 $color-shadow-dark: rgba(0, 0, 0, 0.2);
 $color-shadow-light: #f8f8f8;
+$color-background-opacity: rgba(255, 255, 255, 0.95);
 
 // WIDTHS
 $top-menu-width: 50px;
@@ -11,5 +12,6 @@ $largest-icon-size: 100;
 
 // Z-INDEX
 $alert-z-index: 1050;
+$loading-z-index: 1000;
 
 $background-photo-url: "../displayComponents/images/welcomePage.jpg";

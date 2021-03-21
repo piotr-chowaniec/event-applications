@@ -1,13 +1,21 @@
 import React, { useEffect, useCallback } from 'react';
 
 import { useDeleteUser } from '../shared/api/hooks';
+import Loading from '../displayComponents/loading/loading.component';
 
 import UserItem from './userItem.container';
 import { useFetchAllUsers } from './api/hooks';
 
 const Users = () => {
-  const { call: fetchUsers, status: { data: users } } = useFetchAllUsers();
-  const { call: deleteUser } = useDeleteUser();
+  const {
+    call: fetchUsers,
+    isLoading: isFetchingUsers,
+    status: { data: users },
+  } = useFetchAllUsers();
+  const {
+    call: deleteUser,
+    isLoading: isDeletingUser,
+  } = useDeleteUser();
 
   useEffect(() => {
     fetchUsers();
@@ -18,10 +26,13 @@ const Users = () => {
     await fetchUsers();
   }, [deleteUser, fetchUsers]);
 
+  const isLoading = isFetchingUsers || isDeletingUser;
+
   return (
     <div id="page-content" className="container">
       <div className="card text-center">
         <div className="card-body">
+          <Loading isLoading={isLoading} />
           <h3 className="card-title my-3"><code className="text-muted">All Users</code></h3>
 
           <div className="table-responsive py-2">

@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 
 import routes from '../routes';
 import { transformToDate } from '../displayComponents/formatters';
+import Loading from '../displayComponents/loading/loading.component';
 
 import { useFetchAllApplications, useDeleteApplication } from './api/hooks';
 
@@ -53,8 +54,15 @@ ApplicationItem.propTypes = {
 };
 
 const Applications = () => {
-  const { call: fetchApplication, status: { data: applications } } = useFetchAllApplications();
-  const { call: deleteApplication } = useDeleteApplication();
+  const {
+    call: fetchApplication,
+    isLoading: isFetchingApplications,
+    status: { data: applications },
+  } = useFetchAllApplications();
+  const {
+    call: deleteApplication,
+    isLoading: isDeletingApplication,
+  } = useDeleteApplication();
 
   useEffect(() => {
     fetchApplication();
@@ -65,10 +73,13 @@ const Applications = () => {
     await fetchApplication();
   }, [deleteApplication, fetchApplication]);
 
+  const isLoading = isFetchingApplications || isDeletingApplication;
+
   return (
     <div id="page-content" className="container">
       <div className="card text-center">
         <div className="card-body">
+          <Loading isLoading={isLoading} />
           <h3 className="card-title my-3"><code className="text-muted">All Event Applications</code></h3>
 
           <div className="table-responsive py-2">

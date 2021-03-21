@@ -12,7 +12,7 @@ import { userDataSelector, userDisplayNameSelector } from '../store/user/selecto
 import { useFetchProfileData, useUpdateUser, useDeleteUser } from '../shared/api/hooks';
 import { resetToken } from '../services/fetchService/tokenUtils';
 import { userPropTypes } from '../shared/propTypes';
-import Loading from '../displayComponents/loading.component';
+import Loading from '../displayComponents/loading/loading.component';
 import useModal from '../shared/hooks/useModal.hook';
 
 import ProfileForm from './profileForm.component';
@@ -88,36 +88,35 @@ const Profile = ({
               <Loading
                 isLoading={isLoading}
                 loadingMessage={loadingMessage}
-              >
-                <h3 className="card-title my-3">
-                  {userDisplayName}
-                </h3>
-                <p><code className="text-muted">Change your profile data</code></p>
-                <div className="text-left">
-                  <Formik
-                    initialValues={user?.id ? user : initialUser}
-                    validationSchema={userSchemas.updateProfileSchema}
-                    component={ProfileForm}
-                    onSubmit={onUserUpdate}
-                    enableReinitialize
-                  />
-                  <Link
-                    to={routes.PASSWORD.PATH}
-                    className="btn btn-block btn-outline-warning my-3"
-                  >
-                    Change Password
-                  </Link>
-                  <Button
-                    block
-                    className="my-3"
-                    variant="outline-danger"
-                    onClick={showModal}
-                    disabled={isLoading}
-                  >
-                    Remove Your Profile
-                  </Button>
-                </div>
-              </Loading>
+              />
+              <h3 className="card-title my-3">
+                {userDisplayName}
+              </h3>
+              <p><code className="text-muted">Change your profile data</code></p>
+              <div className="text-left">
+                <Formik
+                  initialValues={user?.id ? user : initialUser}
+                  validationSchema={userSchemas.updateProfileSchema}
+                  component={ProfileForm}
+                  onSubmit={onUserUpdate}
+                  enableReinitialize
+                />
+                <Link
+                  to={routes.PASSWORD.PATH}
+                  className="btn btn-block btn-outline-warning my-3"
+                >
+                  Change Password
+                </Link>
+                <Button
+                  block
+                  className="my-3"
+                  variant="outline-danger"
+                  onClick={showModal}
+                  disabled={isLoading}
+                >
+                  Remove Your Profile
+                </Button>
+              </div>
             </div>
           </div>
         </div>

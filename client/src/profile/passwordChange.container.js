@@ -8,6 +8,8 @@ import { userSchemas } from '@common-packages/validators';
 import routes from '../routes';
 import { userDataSelector, userDisplayNameSelector } from '../store/user/selectors';
 import { userPropTypes } from '../shared/propTypes';
+import Loading from '../displayComponents/loading/loading.component';
+
 
 import PasswordChangeForm from './passwordChangeForm.component';
 import { useUpdatePassword } from './api/hooks';
@@ -23,7 +25,7 @@ const PasswordChange = ({
   user,
   userDisplayName,
 }) => {
-  const { call: updatePassword } = useUpdatePassword();
+  const { call: updatePassword, isLoading } = useUpdatePassword();
 
   const onPasswordUpdate = useCallback(async values => {
     await updatePassword({ ...values, userId: user.id });
@@ -36,6 +38,7 @@ const PasswordChange = ({
         <div className="col-md-8 col-lg-6 col-xl-5">
           <div className="card text-center my-4">
             <div className="card-body">
+              <Loading isLoading={isLoading} />
               <h3 className="card-title my-3">
                 {userDisplayName}
               </h3>
